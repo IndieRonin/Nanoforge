@@ -62,17 +62,17 @@ public class InputManager : Node
                 //Enadble the touchRay
                 touchRay.Enabled = false;
             }
+        }
 
-            if (@event is InputEventKey keyPress)
+        if (@event is InputEventKey keyPress)
+        {
+            if (keyPress.Pressed)
             {
-                if (keyPress.Pressed)
+                //Check if the escape key has been pressed
+                if (keyPress.Scancode == (uint)KeyList.Escape)
                 {
-                    //Check if the escape key has been pressed
-                    if (keyPress.Scancode == (uint)KeyList.Escape)
-                    {
-                        //If the escape key has been pressed exit out of the game
-                        GetTree().Quit();
-                    }
+                    //If the escape key has been pressed exit out of the game
+                    GetTree().Quit();
                 }
             }
         }
