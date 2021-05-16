@@ -84,6 +84,10 @@ public class Main : Node2D
             case GameStates.START_SCREEN:
                 break;
             case GameStates.GAME:
+
+                // Have a bool for the loading of the saved game here and the call to the load function
+                if (cgse.loadGame) LoadGame();
+
                 //Check if the persistent scenes list is not zero 
                 if (gameScenes.Count > 0)
                 {
@@ -107,6 +111,11 @@ public class Main : Node2D
             case GameStates.LOSE:
                 break;
         }
+    }
+
+    private void LoadGame()
+    {
+
     }
 
     // private void OnStartGameEvent(StartGameEvent sge)

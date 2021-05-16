@@ -6,5 +6,7 @@ namespace EventCallback
     {
         //The new state to be sent in the event message
         public GameStates newState;
+        //If the game needs to be loaded when changing states
+        public bool loadGame;
     }
 }
