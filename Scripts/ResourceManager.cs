@@ -31,19 +31,43 @@ public class ResourceManager : Node
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        //Set the timer class to the instance in the scene
         resourceTimer = GetNode<Timer>("ResourceTimer");
     }
-
     //Modify the the ninite addition 
     private void OnModNanitesAdditionEvent(ModNanitesAdditionEvent mnae)
     {
-
+        //Add the amount of nanites adition to the nanitesAddition value, it could increase or decrease the value depending on the sender
+        nanitesAddition += mnae.amount;
     }
     //A once off function called when a cash or something of nanites is added as a once off item
     private void OnAddNanitesEvent(AddNanitesEvent ane)
     {
+        //Add the one shot amount  of nanites to the bank
+        nanitesBanked += ane.amount;
+    }
+    private void OnRemoveNanitesAmountEvent(RemoveNanitesAmountEvent rnae)
+    {
+        if (nanitesBanked > rnae.amount)
+        {
+            //Remove the amount of nanites from the 
+            nanitesBanked -= rnae.amount;
+            //Send back the true message to let the sender know the transaction was sucesfull
+            rnae.done = true;
+        }
+    }
+    private void OnModTotalPowerEvent(ModTotalPowerEvent mtpe)
+    {
+//Add the power to thte total power 
+totalPower += 
+    }
+    private void OnModPowerDrawEvent()
+    {
 
     }
-
-    
+    public void OnResourceTimerTimeout()
+    {
+        //Add the adidtion nanites to the banked nanites
+        nanitesBanked += nanitesAddition;
+    }
 }
