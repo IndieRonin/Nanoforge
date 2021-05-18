@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Textures/UI/Button.png" type="Texture" id=1]
 [ext_resource path="res://Fonts/Font.tres" type="DynamicFont" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://Scripts/UI.cs" type="Script" id=4]
 [ext_resource path="res://Scripts/HUD.cs" type="Script" id=5]
 [ext_resource path="res://Scripts/IO.cs" type="Script" id=6]
+[ext_resource path="res://GUI Theme.tres" type="Theme" id=7]
+[ext_resource path="res://Textures/AsteroidBase.png" type="Texture" id=8]
 
 [node name="UI" type="CanvasLayer"]
 script = ExtResource( 4 )
@@ -18,141 +20,106 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Menu" type="VBoxContainer" parent="MainMenu"]
-anchor_left = 0.4
-anchor_top = 0.4
+[node name="Menu" type="HBoxContainer" parent="MainMenu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/Menu"]
+margin_right = 638.0
+margin_bottom = 720.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Asteriod" type="TextureRect" parent="MainMenu/Menu/VBoxContainer"]
+margin_top = 104.0
+margin_right = 638.0
+margin_bottom = 616.0
+size_flags_horizontal = 3
+texture = ExtResource( 8 )
+
+[node name="Box" type="TextureRect" parent="MainMenu/Menu"]
+margin_left = 642.0
+margin_right = 1280.0
+margin_bottom = 720.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Menu" type="VBoxContainer" parent="MainMenu/Menu/Box"]
+anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -53.0
-margin_top = -40.0
-margin_right = 147.0
-margin_bottom = 160.0
+margin_left = -319.0
+margin_top = -360.0
+margin_right = 319.0
+margin_bottom = 360.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Box" type="NinePatchRect" parent="MainMenu/Menu"]
-margin_right = 328.0
-margin_bottom = 272.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-texture = ExtResource( 1 )
-patch_margin_left = 12
-patch_margin_top = 20
-patch_margin_right = 12
-patch_margin_bottom = 20
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Start" type="Button" parent="MainMenu/Menu/Box"]
-anchor_left = 0.1
-anchor_top = 0.1
-anchor_right = 0.9
-anchor_bottom = 0.1
+[node name="Start" type="Button" parent="MainMenu/Menu/Box/Menu"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_top = 308.0
+margin_bottom = 340.0
 focus_mode = 0
+theme = ExtResource( 7 )
 custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 0, 0.239216, 0.517647, 1 )
 custom_colors/font_color_hover = Color( 0, 0.378, 0.81, 1 )
 custom_colors/font_color_pressed = Color( 0, 0.149333, 0.32, 1 )
 enabled_focus_mode = 0
 text = "Start"
-flat = true
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": true
 }
 
-[node name="StartBorder" type="NinePatchRect" parent="MainMenu/Menu/Box/Start"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-texture = ExtResource( 1 )
-patch_margin_left = 12
-patch_margin_top = 20
-patch_margin_right = 12
-patch_margin_bottom = 20
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="SaveLoad" type="Button" parent="MainMenu/Menu/Box"]
-anchor_left = 0.1
-anchor_top = 0.3
-anchor_right = 0.9
-anchor_bottom = 0.3
+[node name="SaveLoad" type="Button" parent="MainMenu/Menu/Box/Menu"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_top = 344.0
+margin_bottom = 376.0
 focus_mode = 0
+theme = ExtResource( 7 )
 custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color_disabled = Color( 0.278431, 0.278431, 0.278431, 1 )
 custom_colors/font_color = Color( 0, 0.239216, 0.517647, 1 )
 custom_colors/font_color_hover = Color( 0, 0.378, 0.81, 1 )
 custom_colors/font_color_pressed = Color( 0, 0.149333, 0.32, 1 )
-disabled = true
 enabled_focus_mode = 0
 text = "Save / Load"
-flat = true
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": true
 }
 
-[node name="SaveLoadBorder" type="NinePatchRect" parent="MainMenu/Menu/Box/SaveLoad"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_bottom = 2.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-texture = ExtResource( 1 )
-patch_margin_left = 12
-patch_margin_top = 20
-patch_margin_right = 12
-patch_margin_bottom = 20
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Exit" type="Button" parent="MainMenu/Menu/Box"]
-anchor_left = 0.1
-anchor_top = 0.5
-anchor_right = 0.9
-anchor_bottom = 0.5
-margin_left = 3.8147e-06
-margin_right = 3.05176e-05
-margin_bottom = 36.8108
+[node name="Exit" type="Button" parent="MainMenu/Menu/Box/Menu"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_top = 380.0
+margin_bottom = 412.0
 focus_mode = 0
 size_flags_horizontal = 5
+theme = ExtResource( 7 )
 custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 0.501961, 0, 0, 1 )
 custom_colors/font_color_hover = Color( 0.831373, 0, 0, 1 )
 custom_colors/font_color_pressed = Color( 0.33, 0, 0, 1 )
 enabled_focus_mode = 0
 text = "Exit"
-flat = true
 __meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ExitBorder" type="NinePatchRect" parent="MainMenu/Menu/Box/Exit"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-texture = ExtResource( 1 )
-patch_margin_left = 12
-patch_margin_top = 20
-patch_margin_right = 12
-patch_margin_bottom = 20
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-__meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": true
 }
 
 [node name="HUD" type="Control" parent="."]
@@ -266,6 +233,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="button_up" from="MainMenu/Menu/Box/Start" to="MainMenu" method="OnStartButtonUp"]
-[connection signal="button_up" from="MainMenu/Menu/Box/SaveLoad" to="MainMenu" method="OnLoadButtonUp"]
-[connection signal="button_up" from="MainMenu/Menu/Box/Exit" to="MainMenu" method="OnExitButtonUp"]
+[connection signal="button_up" from="MainMenu/Menu/Box/Menu/Start" to="MainMenu" method="OnStartButtonUp"]
+[connection signal="button_up" from="MainMenu/Menu/Box/Menu/SaveLoad" to="MainMenu" method="OnLoadButtonUp"]
+[connection signal="button_up" from="MainMenu/Menu/Box/Menu/Exit" to="MainMenu" method="OnExitButtonUp"]

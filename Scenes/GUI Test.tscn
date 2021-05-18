@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://GUI Theme.tres" type="Theme" id=1]
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 3.4751
+margin_right = 3.4751
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="."]
+margin_left = 472.533
+margin_top = 185.543
+margin_right = 578.533
+margin_bottom = 203.543
+text = "Test Button"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureProgress" type="TextureProgress" parent="."]
+margin_left = 216.0
+margin_top = 348.0
+margin_right = 735.0
+margin_bottom = 407.0
+value = 50.0
