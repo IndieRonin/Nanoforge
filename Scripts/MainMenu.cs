@@ -9,21 +9,15 @@ public class MainMenu : Control
         ChangeGameStateEvent cgse = new ChangeGameStateEvent();
         cgse.callerClass = "MainMenu - OnStartButtonUp()";
         cgse.newState = GameStates.GAME;
-        cgse.loadGame = false;
         cgse.FireEvent();
     }
-    public void OnLoadButtonUp()
+    public void OnSaveLoadButtonUp()
     {
-        //Send the message for the game start callback event with the load game flag set to true
-        ChangeGameStateEvent cgse = new ChangeGameStateEvent();
-        cgse.callerClass = "MainMenu - OnStartButtonUp()";
-        cgse.newState = GameStates.GAME;
-        cgse.loadGame = true;
-        cgse.FireEvent();
-    }  
-      public void OnSaveButtonUp()
-    {
-        //Call the save event from the io system to be created
+        //Send the message for the game to show the save load screen
+        ChangeUIEvent cuie = new ChangeUIEvent();
+        cuie.callerClass = "MainMenu - OnSaveLoadButtonUp()";
+        cuie.showMenu = MENUS.SAVELOAD;
+        cuie.FireEvent();
     }
     public void OnExitButtonUp()
     {

@@ -1,6 +1,5 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://Textures/UI/Button.png" type="Texture" id=1]
 [ext_resource path="res://Fonts/Font.tres" type="DynamicFont" id=2]
 [ext_resource path="res://Scripts/MainMenu.cs" type="Script" id=3]
 [ext_resource path="res://Scripts/UI.cs" type="Script" id=4]
@@ -40,11 +39,13 @@ __meta__ = {
 }
 
 [node name="Asteriod" type="TextureRect" parent="MainMenu/Menu/VBoxContainer"]
-margin_top = 104.0
 margin_right = 638.0
-margin_bottom = 616.0
+margin_bottom = 720.0
 size_flags_horizontal = 3
+size_flags_vertical = 3
 texture = ExtResource( 8 )
+expand = true
+stretch_mode = 5
 
 [node name="Box" type="TextureRect" parent="MainMenu/Menu"]
 margin_left = 642.0
@@ -54,14 +55,8 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Menu" type="VBoxContainer" parent="MainMenu/Menu/Box"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -319.0
-margin_top = -360.0
-margin_right = 319.0
-margin_bottom = 360.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
@@ -70,9 +65,8 @@ __meta__ = {
 }
 
 [node name="Start" type="Button" parent="MainMenu/Menu/Box/Menu"]
-anchor_left = 0.5
-anchor_right = 0.5
 margin_top = 308.0
+margin_right = 638.0
 margin_bottom = 340.0
 focus_mode = 0
 theme = ExtResource( 7 )
@@ -87,9 +81,8 @@ __meta__ = {
 }
 
 [node name="SaveLoad" type="Button" parent="MainMenu/Menu/Box/Menu"]
-anchor_left = 0.5
-anchor_right = 0.5
 margin_top = 344.0
+margin_right = 638.0
 margin_bottom = 376.0
 focus_mode = 0
 theme = ExtResource( 7 )
@@ -105,9 +98,8 @@ __meta__ = {
 }
 
 [node name="Exit" type="Button" parent="MainMenu/Menu/Box/Menu"]
-anchor_left = 0.5
-anchor_right = 0.5
 margin_top = 380.0
+margin_right = 638.0
 margin_bottom = 412.0
 focus_mode = 0
 size_flags_horizontal = 5
@@ -153,15 +145,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextEdit" type="TextEdit" parent="SaveLoad/MainVBox"]
+[node name="ItemList" type="ItemList" parent="SaveLoad/MainVBox"]
 margin_right = 604.0
 margin_bottom = 330.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ButtonsHBox" type="HBoxContainer" parent="SaveLoad/MainVBox"]
 margin_top = 334.0
@@ -185,22 +174,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="StartBorder" type="NinePatchRect" parent="SaveLoad/MainVBox/ButtonsHBox/Save"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-texture = ExtResource( 1 )
-patch_margin_left = 12
-patch_margin_top = 20
-patch_margin_right = 12
-patch_margin_bottom = 20
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="Load" type="Button" parent="SaveLoad/MainVBox/ButtonsHBox"]
 margin_left = 304.0
 margin_right = 396.0
@@ -217,22 +190,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="StartBorder" type="NinePatchRect" parent="SaveLoad/MainVBox/ButtonsHBox/Load"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-texture = ExtResource( 1 )
-patch_margin_left = 12
-patch_margin_top = 20
-patch_margin_right = 12
-patch_margin_bottom = 20
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [connection signal="button_up" from="MainMenu/Menu/Box/Menu/Start" to="MainMenu" method="OnStartButtonUp"]
-[connection signal="button_up" from="MainMenu/Menu/Box/Menu/SaveLoad" to="MainMenu" method="OnLoadButtonUp"]
+[connection signal="button_up" from="MainMenu/Menu/Box/Menu/SaveLoad" to="MainMenu" method="OnSaveLoadButtonUp"]
 [connection signal="button_up" from="MainMenu/Menu/Box/Menu/Exit" to="MainMenu" method="OnExitButtonUp"]

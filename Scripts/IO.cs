@@ -6,7 +6,7 @@ using EventCallback;
 public class IO : Control
 {
     //Grab a refference to the text editor 
-    TextEdit text;
+    ItemList itemList;
     //The Path the saves must be saved to
     const string SAVE_DIR = "user://saves/";
     //The file name to be used for the save files
@@ -39,7 +39,7 @@ public class IO : Control
             { "LastAttack", 10 }
         };
 
-        text = GetNode<TextEdit>("MainVBox/TextEdit");
+        itemList = GetNode<ItemList>("MainVBox/ItemList");
         //Save();
         ListFilesInDirectory();
     }
@@ -112,7 +112,7 @@ public class IO : Control
                 //Add the fiel to the list to display
                 files.Add(tempFile);
                 //Write the file names on the text edit
-                text.Text += tempFile + "\n";
+                itemList.AddItem(tempFile, null, false);
             }
         }
         //Closes the read on the foolder content for the dir class

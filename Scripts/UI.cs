@@ -1,27 +1,62 @@
 using Godot;
 using System;
+using EventCallback;
 
 public enum MENUS
 {
+    NONE,
     MAIN,
     SAVELOAD,
     HUD
 };
 public class UI : CanvasLayer
 {
-    // Declare member variables here. Examples:
-    // private int a = 2;
-    // private string b = "text";
+    //The menu that is currently visible
+    MENUS currentMenu;
+    //The control node for the mainMenu
+    Control mainMenu;
+    //The control node for hte HUD 
+    Control hud;
+    //The control node for the Save and load screen
+    Control saveLoad;
 
-    // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-
+        ChangeUIEvent.RegisterListener(OnChangeUIEvent);
+        //Set the menu to start up with
+        currentMenu = MENUS.NONE;
+        //The refferences to the control nodes for the different menus
+        mainMenu = GetNode<Control>("MainMenu");
+        hud = GetNode<Control>("HUD");
+        saveLoad = GetNode<Control>("SaveLoad");
     }
 
-    //  // Called every frame. 'delta' is the elapsed time since the previous frame.
-    //  public override void _Process(float delta)
-    //  {
-    //      
-    //  }
+    private void OnChangeUIEvent(ChangeUIEvent cuie)
+    {
+        //Set the current menu
+        currentMenu = cuie.showMenu;
+        //Hide all the menus
+        HideAllMenus();
+        //Show only the curent menu
+        switch (currentMenu)
+        {
+            case MENUS.MAIN:
+                mainMenu.Visible = true;
+                break;
+            case MENUS.SAVELOAD:
+                saveLoad.Visible = true;
+                break;
+            case MENUS.HUD:
+                hud.Visible = true;
+                break;
+        }
+    }
+
+    private void HideAllMenus()
+    {
+        //Set all the menus visible values to false
+        mainMenu.Visible = false;
+        hud.Visible = false;
+        saveLoad.Visible = false;
+    }
 }
