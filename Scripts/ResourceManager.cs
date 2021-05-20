@@ -58,16 +58,27 @@ public class ResourceManager : Node
     }
     private void OnModTotalPowerEvent(ModTotalPowerEvent mtpe)
     {
-//Add the power to thte total power 
-totalPower += 
+        //Add the power to thte total power 
+        totalPower += mtpe.amount;
     }
-    private void OnModPowerDrawEvent()
+    private void OnModPowerDrawEvent(ModPowerDrawEvent mpde)
     {
-
+        //Check if there is enough power to supply the request
+        if (currentPower >= mpde.amount)
+        {
+            totalPowerDraw += mpde.amount;
+            //If the power was enough we return done else done is false by defualt
+            mpde.done = true;
+        }
     }
     public void OnResourceTimerTimeout()
     {
         //Add the adidtion nanites to the banked nanites
         nanitesBanked += nanitesAddition;
+    }
+    //Called to update the power in the UI
+    private void UpdatePower()
+    {
+
     }
 }

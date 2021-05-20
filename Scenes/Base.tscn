@@ -5,7 +5,7 @@
 [ext_resource path="res://Textures/Normals/AsteroidBase.png" type="Texture" id=3]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 256.0
+radius = 512.0
 
 [node name="Base" type="Sprite"]
 texture = ExtResource( 1 )
