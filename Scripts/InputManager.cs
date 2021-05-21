@@ -17,8 +17,28 @@ public class InputManager : Node
         //Set the ray so it detects collisions with areas
         touchRay.CollideWithAreas = true;
     }
-    public override void _UnhandledInput(Godot.InputEvent @event)
+    public override void _UnhandledInput(InputEvent @event)
     {
+        //   if (@event is InputEventScreenDrag screenDrag)
+        // {
+        //     //Convert the movement vector to a positive number to check if thier is movememnt
+        //     Vector2 moveCheck = new Vector2(Mathf.Abs(screenDrag.Relative.x), Mathf.Abs(screenDrag.Relative.y));
+        //     //If the drag movement is greater than one we move the camera so we don't make micro udjustments every time we acidentally touch the screen
+        //     if (moveCheck > Vector2.One)
+        //     {
+        //         CameraManagerEvent cmei = new CameraManagerEvent();
+        //         cmei.draggingCamera = true;
+        //         cmei.dragMovememnt = (screenDrag.Relative * -2);
+        //         cmei.FireEvent();
+        //     }
+        //     else
+        //     {
+        //         CameraManagerEvent cmei = new CameraManagerEvent();
+        //         cmei.draggingCamera = false;
+        //         cmei.dragMovememnt = Vector2.Zero;
+        //         cmei.FireEvent();
+        //     }
+        // }
         //If there was a touch screen event
         if (@event is InputEventScreenTouch screenTouch)
         {
@@ -31,20 +51,17 @@ public class InputManager : Node
                 touchRay.Position = screenTouch.Position;
                 //Forces the raycast to update and detect the collision with the building object
                 touchRay.ForceRaycastUpdate();
-                GD.Print("InputManager - _UnhandledInput: Ray position = " + touchRay.Position);
-                GD.Print("InputManager - _UnhandledInput: Ray global position = " + touchRay.GlobalPosition);
                 //Check if there is a collision from the touch array
                 if (touchRay.IsColliding())
                 {
+                    GD.Print("InputManager - _UnhandledInput: Ray position = " + touchRay.Position);
+                    GD.Print("InputManager - _UnhandledInput: Ray global position = " + touchRay.GlobalPosition);
                     //Get the node that the ray collided with
                     Node2D hitNode = touchRay.GetCollider() as Node2D;
-                    //check if the node has a parent, this is done because the area collider for detecting pressed is a child of the main node 
-
                     //Get the instance id of the tile
                     nodeID = hitNode.GetInstanceId();
                     //Set the start position of the drag
                     touchStart = screenTouch.Position;
-
                     //Check if the node belongs to the atroid group to know what menu to call up
                     if (hitNode.IsInGroup("Asteroids"))
                     {

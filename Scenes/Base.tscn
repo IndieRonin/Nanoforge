@@ -27,4 +27,4 @@ normal_map = ExtResource( 5 )
 shape = SubResource( 1 )
 
 [node name="Asteroids" parent="." instance=ExtResource( 6 )]
-position = Vector2( 1014.53, 199.126 )
+position = Vector2( 443.71, 313.29 )
