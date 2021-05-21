@@ -31,6 +31,8 @@ public class InputManager : Node
                 touchRay.Position = screenTouch.Position;
                 //Forces the raycast to update and detect the collision with the building object
                 touchRay.ForceRaycastUpdate();
+                GD.Print("InputManager - _UnhandledInput: Ray position = " + touchRay.Position);
+                GD.Print("InputManager - _UnhandledInput: Ray global position = " + touchRay.GlobalPosition);
                 //Check if there is a collision from the touch array
                 if (touchRay.IsColliding())
                 {
@@ -39,19 +41,19 @@ public class InputManager : Node
                     //check if the node has a parent, this is done because the area collider for detecting pressed is a child of the main node 
 
                     //Get the instance id of the tile
-                    nodeID = hitNode.GetParent().GetInstanceId();
+                    nodeID = hitNode.GetInstanceId();
                     //Set the start position of the drag
                     touchStart = screenTouch.Position;
 
                     //Check if the node belongs to the atroid group to know what menu to call up
-                    if (hitNode.GetParent().IsInGroup("Astroid"))
+                    if (hitNode.IsInGroup("Asteroids"))
                     {
-
+                        GD.Print("Asteroid has been clicked");
                     }
                     //Check if the node belongs to the base group to know what menu to call up
-                    if (hitNode.GetParent().IsInGroup("Base"))
+                    if (hitNode.IsInGroup("Base"))
                     {
-
+                        GD.Print("Asteroid has been clicked");
                     }
                 }
             }

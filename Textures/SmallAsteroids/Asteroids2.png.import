@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/SmallAsteroid2.png-ef9021959216d4dca3b19ea600d0de52.stex"
+path="res://.import/Asteroids2.png-5adc3b0ef36c6cd008750470278599cd.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/SmallAsteroids/SmallAsteroid2.png"
-dest_files=[ "res://.import/SmallAsteroid2.png-ef9021959216d4dca3b19ea600d0de52.stex" ]
+source_file="res://Textures/SmallAsteroids/Asteroids2.png"
+dest_files=[ "res://.import/Asteroids2.png-5adc3b0ef36c6cd008750470278599cd.stex" ]
 
 [params]
 
