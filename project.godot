@@ -20,7 +20,6 @@ config/icon="res://Textures/Base.png"
 window/size/width=1280
 window/size/height=720
 window/size/resizable=false
-window/size/borderless=true
 
 [input_devices]
 

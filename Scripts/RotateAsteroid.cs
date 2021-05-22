@@ -10,7 +10,7 @@ public class RotateAsteroid : Sprite
     //The random number generator o choose hte speed of the asteroid
     RandomNumberGenerator rng = new RandomNumberGenerator();
     //The rotation speed of the ateroid(s)
-    float rotSpeed = 10;
+    float rotSpeed = 2;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -18,7 +18,7 @@ public class RotateAsteroid : Sprite
         //Randomize the number generator
         rng.Randomize();
         //Set the random speed ofthe asteroid if the bool flag was set
-        if (randomSpeed) rotSpeed = rng.RandfRange(10, 100);
+        if (randomSpeed) rotSpeed = rng.RandfRange(2, 10);
         //If hte random direction flag is set to true
         if (randomDirection)
         {

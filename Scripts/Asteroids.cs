@@ -27,4 +27,17 @@ public class Asteroids : Node2D
         //Generate the base power
         basePower = rng.RandiRange(5, 10);
     }
+
+    public void OnArea2DInputEvent(Node viewPort, InputEvent @event, int shape)
+    {
+        //If there was a touch screen event
+        if (@event is InputEventScreenTouch screenTouch)
+        {
+            //If the screenTouch was pressed
+            if (screenTouch.Pressed)
+            {
+                GD.Print("Asteroids clicked");
+            }
+        }
+    }
 }
