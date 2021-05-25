@@ -7,7 +7,8 @@ public enum MENUS
     NONE,
     MAIN,
     SAVELOAD,
-    HUD
+    HUD,
+    BUILD
 };
 public class UI : CanvasLayer
 {
@@ -19,6 +20,8 @@ public class UI : CanvasLayer
     Control hud;
     //The control node for the Save and load screen
     Control saveLoad;
+    //The control node for the build menu
+    Control buildMenu;
 
     public override void _Ready()
     {
@@ -29,6 +32,7 @@ public class UI : CanvasLayer
         mainMenu = GetNode<Control>("MainMenu");
         hud = GetNode<Control>("HUD");
         saveLoad = GetNode<Control>("SaveLoad");
+        buildMenu = GetNode<Control>("BuildMenu");
     }
 
     private void OnChangeUIEvent(ChangeUIEvent cuie)
@@ -49,6 +53,10 @@ public class UI : CanvasLayer
             case MENUS.HUD:
                 hud.Visible = true;
                 break;
+            case MENUS.BUILD:
+                hud.Visible = true;
+                buildMenu.Visible = true;
+                break;
         }
     }
 
@@ -58,5 +66,6 @@ public class UI : CanvasLayer
         mainMenu.Visible = false;
         hud.Visible = false;
         saveLoad.Visible = false;
+        buildMenu.Visible = false;
     }
 }

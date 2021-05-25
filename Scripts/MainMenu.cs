@@ -8,9 +8,9 @@ public class MainMenu : Control
         //Send the message for the game to show the save load screen
         ChangeUIEvent cuie = new ChangeUIEvent();
         cuie.callerClass = "MainMenu - OnSaveLoadButtonUp()";
-        cuie.showMenu = MENUS.NONE;
+        cuie.showMenu = MENUS.HUD;
         cuie.FireEvent();
-        
+
         //Send the message for the game start callback event with the load game set to false
         ChangeGameStateEvent cgse = new ChangeGameStateEvent();
         cgse.callerClass = "MainMenu - OnStartButtonUp()";

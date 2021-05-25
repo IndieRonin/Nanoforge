@@ -1,5 +1,6 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
+[ext_resource path="res://Scripts/BuildMenu.cs" type="Script" id=1]
 [ext_resource path="res://Fonts/Font.tres" type="DynamicFont" id=2]
 [ext_resource path="res://Scripts/MainMenu.cs" type="Script" id=3]
 [ext_resource path="res://Scripts/UI.cs" type="Script" id=4]
@@ -12,9 +13,9 @@
 script = ExtResource( 4 )
 
 [node name="MainMenu" type="Control" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-mouse_filter = 1
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -114,19 +115,66 @@ __meta__ = {
 
 [node name="HUD" type="Control" parent="."]
 visible = false
-margin_right = 40.0
-margin_bottom = 40.0
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -129.0
+margin_top = -146.0
 mouse_filter = 1
 script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD"]
+margin_right = 40.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PowerLabel" type="Label" parent="HUD/VBoxContainer"]
+margin_right = 126.0
+margin_bottom = 32.0
+custom_fonts/font = ExtResource( 2 )
+text = "Power"
+align = 1
+
+[node name="PowerAmount" type="Label" parent="HUD/VBoxContainer"]
+margin_top = 36.0
+margin_right = 126.0
+margin_bottom = 68.0
+custom_fonts/font = ExtResource( 2 )
+text = "0"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NanitesLabel" type="Label" parent="HUD/VBoxContainer"]
+margin_top = 72.0
+margin_right = 126.0
+margin_bottom = 104.0
+custom_fonts/font = ExtResource( 2 )
+text = "Nanites"
+align = 1
+
+[node name="NanitesAmount" type="Label" parent="HUD/VBoxContainer"]
+margin_top = 108.0
+margin_right = 126.0
+margin_bottom = 140.0
+custom_fonts/font = ExtResource( 2 )
+text = "0"
+align = 1
+
 [node name="SaveLoad" type="Control" parent="."]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-mouse_filter = 1
 script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -183,6 +231,44 @@ custom_colors/font_color_hover = Color( 0, 0.378, 0.81, 1 )
 custom_colors/font_color_pressed = Color( 0, 0.149333, 0.32, 1 )
 text = "Load"
 flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BuildMenu" type="Control" parent="."]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BuildMenu"]
+margin_right = 40.0
+margin_bottom = 40.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PowerButton" type="Button" parent="BuildMenu/HBoxContainer"]
+margin_right = 103.0
+margin_bottom = 40.0
+theme = ExtResource( 7 )
+custom_fonts/font = ExtResource( 2 )
+text = "Power"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NanitesButton" type="Button" parent="BuildMenu/HBoxContainer"]
+margin_left = 107.0
+margin_right = 233.0
+margin_bottom = 40.0
+theme = ExtResource( 7 )
+custom_fonts/font = ExtResource( 2 )
+text = "Nanites"
 __meta__ = {
 "_edit_use_anchors_": false
 }
