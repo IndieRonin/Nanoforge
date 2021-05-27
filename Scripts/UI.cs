@@ -33,6 +33,8 @@ public class UI : CanvasLayer
         hud = GetNode<Control>("HUD");
         saveLoad = GetNode<Control>("SaveLoad");
         buildMenu = GetNode<Control>("BuildMenu");
+        //Set the main menu as visible when starting up game
+        mainMenu.Visible = true;
     }
 
     private void OnChangeUIEvent(ChangeUIEvent cuie)

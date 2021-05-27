@@ -10,12 +10,16 @@ public class HUD : Control
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        //Regidter the listener for the HUD Update event message
+        HUDUpdateEvent.RegisterListener(OnHUDUpdateEvent);
+        //The refference to teh labels for hte amounts in the scene
         powerLabel = GetNode<Label>("VBoxContainer/PowerAmount");
         nanitesLabel = GetNode<Label>("VBoxContainer/NanitesAmount");
     }
 
     private void OnHUDUpdateEvent(HUDUpdateEvent hue)
     {
+        GD.Print("HUD - OnHDUUpdateEvent(): Hud Update called");
         //Set the label for the amount of power
         powerLabel.Text = (hue.power).ToString();
         //Set the label to show the amount of nanites
