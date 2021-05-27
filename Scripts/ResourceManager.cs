@@ -6,15 +6,15 @@ public class ResourceManager : Node
     //The timer used to add resources every tick
     Timer resourceTimer;
     //The total amount of power that is available from the power plants combined
-    int totalPower;
+    float totalPower;
     //The current power available after the total power draw has been deducted
-    int currentPower;
+    float currentPower;
     //The total power being used by factories and weapons
-    int totalPowerDraw;
+    float totalPowerDraw;
     //The nanites that are available to be used
-    int nanitesBanked;
+    float nanitesBanked;
     //Amount of nanites to be added every tick
-    int nanitesAddition;
+    float nanitesAddition;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()

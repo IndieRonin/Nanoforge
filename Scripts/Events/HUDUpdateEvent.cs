@@ -6,8 +6,8 @@ namespace EventCallback
     public class HUDUpdateEvent : Event<HUDUpdateEvent>
     {
         //The amount of power to display
-        public int power;
+        public float power;
         //The amount of nanites to display
-        public int nanites;
+        public float nanites;
     }
 }

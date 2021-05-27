@@ -4,10 +4,11 @@ using EventCallback;
 public class Base : Node2D
 {
     //The base amount of power and nanites the base provides as a start up
-    [Export] int baseNanites;
+    [Export] float baseNanites;
     //Add the once off nanite amount for the base
-    [Export] int onceoffNanites;
-    [Export] int basePower;
+    [Export] float onceoffNanites;
+    //The base power to add the the total power pool
+    [Export] float basePower;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -24,7 +25,8 @@ public class Base : Node2D
         mnae.FireEvent();
         AddNanitesEvent ane = new AddNanitesEvent();
         ane.callerClass = "Base - _Ready()";
-        ane.amount = 
+        ane.amount = onceoffNanites;
+        ane.FireEvent();
     }
 
     public void OnArea2DInputEvent(Node viewPort, InputEvent @event, int shape)

@@ -7,7 +7,7 @@ namespace EventCallback
     {
         //The amount to modify the total power with
         //When a new reator is build this message is used
-        public int amount;
+        public float amount;
     }
 }
 
