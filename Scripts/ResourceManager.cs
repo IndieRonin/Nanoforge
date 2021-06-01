@@ -14,7 +14,7 @@ public class ResourceManager : Node
     //The nanites that are available to be used
     float nanitesBanked;
     //Amount of nanites to be added every tick
-    float nanitesAddition;
+    float naniteIncome;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -35,14 +35,12 @@ public class ResourceManager : Node
     //Modify the the ninite addition 
     private void OnModNanitesAdditionEvent(ModNanitesAdditionEvent mnae)
     {
-        GD.Print("ResourceManager - OnModNanitesAdditionEvent: OnModNanitesAdditionEvent Called");
         //Add the amount of nanites adition to the nanitesAddition value, it could increase or decrease the value depending on the sender
-        nanitesAddition += mnae.amount;
+        naniteIncome += mnae.amount;
     }
     //A once off function called when a cash or something of nanites is added as a once off item
     private void OnAddNanitesEvent(AddNanitesEvent ane)
     {
-        GD.Print("ResourceManager - OnAddNanitesEvent: OnAddNanitesEvent Called");
         //Add the one shot amount  of nanites to the bank
         nanitesBanked += ane.amount;
         //Update the HUD with the new power draw
@@ -51,22 +49,18 @@ public class ResourceManager : Node
     //Removes nanites once off by the amount specified (Like when building something)
     private void OnRemoveNanitesAmountEvent(RemoveNanitesAmountEvent rnae)
     {
-        GD.Print("ResourceManager - OnRemoveNanitesAmountEvent: OnRemoveNanitesAmountEvent Called");
         if (nanitesBanked > rnae.amount)
         {
-            GD.Print("ResourceManager - OnRemoveNanitesAmountEvent: Transaction successful");
             //Remove the amount of nanites from the 
             nanitesBanked -= rnae.amount;
             //Send back the true message to let the sender know the transaction was sucesfull
             rnae.done = true;
             //Update the HUD with the new power draw
             UpdateHUD();
-
         }
     }
     private void OnModTotalPowerEvent(ModTotalPowerEvent mtpe)
     {
-        GD.Print("ResourceManager - OnModTotalPowerEvent: OnModTotalPowerEvent Called");
         //Add the power to thte total power 
         totalPower += mtpe.amount;
         //Update the HUD with the new power draw
@@ -74,11 +68,9 @@ public class ResourceManager : Node
     }
     private void OnModPowerDrawEvent(ModPowerDrawEvent mpde)
     {
-        GD.Print("ResourceManager - OnModPowerDrawEvent: OnModPowerDrawEvent Called");
         //Check if there is enough power to supply the request
         if (currentPower >= mpde.amount)
         {
-            GD.Print("ResourceManager - OnModPowerDrawEvent: Transaction successful");
             totalPowerDraw += mpde.amount;
             //If the power was enough we return done else done is false by defualt
             mpde.done = true;
@@ -88,21 +80,27 @@ public class ResourceManager : Node
     }
     public void OnResourceTimerTimeout()
     {
-        GD.Print("ResourceManager - OnResourceTimerTimeout: OnResourceTimerTimeout called");
         //Add the adidtion nanites to the banked nanites
-        nanitesBanked += nanitesAddition;
+        nanitesBanked += naniteIncome;
+        nanitesBanked = RoundValue(nanitesBanked);
         //Update the HuDwith hte new nanite amount
         UpdateHUD();
     }
 
     private void UpdateHUD()
     {
-        GD.Print("ResourceManager - UpdateHUD: UpdateHUD function called");
         //Message the HUD the new nanite amount
         HUDUpdateEvent hue = new HUDUpdateEvent();
         hue.callerClass = "ResourceManager - UpdateHUD()";
         hue.power = currentPower;
         hue.nanites = nanitesBanked;
+        hue.naniteIncome = naniteIncome;
         hue.FireEvent();
+    }
+
+    private float RoundValue(float amount)
+    {
+        //Convert the float to double and round it to only two decimal places and return it as a float
+        return (float)Math.Round(((double)amount), 2);
     }
 }

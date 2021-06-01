@@ -9,5 +9,7 @@ namespace EventCallback
         public float power;
         //The amount of nanites to display
         public float nanites;
+        //The amount the nanites increase 
+        public float naniteIncome;
     }
 }

@@ -13,6 +13,7 @@
 script = ExtResource( 4 )
 
 [node name="MainMenu" type="Control" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 3 )
@@ -118,8 +119,8 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -129.0
-margin_top = -146.0
+margin_left = -256.0
+margin_top = -214.0
 mouse_filter = 1
 script = ExtResource( 5 )
 __meta__ = {
@@ -127,8 +128,8 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HUD"]
-margin_right = 40.0
-margin_bottom = 40.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
@@ -137,16 +138,36 @@ __meta__ = {
 }
 
 [node name="PowerLabel" type="Label" parent="HUD/VBoxContainer"]
-margin_right = 126.0
-margin_bottom = 32.0
+margin_top = 1.0
+margin_right = 256.0
+margin_bottom = 33.0
 custom_fonts/font = ExtResource( 2 )
 text = "Power"
 align = 1
 
 [node name="PowerAmount" type="Label" parent="HUD/VBoxContainer"]
-margin_top = 36.0
-margin_right = 126.0
-margin_bottom = 68.0
+margin_top = 37.0
+margin_right = 256.0
+margin_bottom = 69.0
+custom_fonts/font = ExtResource( 2 )
+text = "0"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NaniteInLabel" type="Label" parent="HUD/VBoxContainer"]
+margin_top = 73.0
+margin_right = 256.0
+margin_bottom = 105.0
+custom_fonts/font = ExtResource( 2 )
+text = "Nanite Income"
+align = 1
+
+[node name="NaniteInAmount" type="Label" parent="HUD/VBoxContainer"]
+margin_top = 109.0
+margin_right = 256.0
+margin_bottom = 141.0
 custom_fonts/font = ExtResource( 2 )
 text = "0"
 align = 1
@@ -155,17 +176,17 @@ __meta__ = {
 }
 
 [node name="NanitesLabel" type="Label" parent="HUD/VBoxContainer"]
-margin_top = 72.0
-margin_right = 126.0
-margin_bottom = 104.0
+margin_top = 145.0
+margin_right = 256.0
+margin_bottom = 177.0
 custom_fonts/font = ExtResource( 2 )
 text = "Nanites"
 align = 1
 
 [node name="NanitesAmount" type="Label" parent="HUD/VBoxContainer"]
-margin_top = 108.0
-margin_right = 126.0
-margin_bottom = 140.0
+margin_top = 181.0
+margin_right = 256.0
+margin_bottom = 213.0
 custom_fonts/font = ExtResource( 2 )
 text = "0"
 align = 1
