@@ -1,24 +1,85 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using EventCallback;
 public class AIMovement : Node
 {
 
     //The movemnt speed of the tank
     [Export] int speed = 80;
+    //The collection of vector two points making up the path to the target
+    private List<Vector2> path;
+    //Reference to the navigation node thats a child of the main node
+    Navigation2D nav2d;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         //Register the listener for the event message of the SetAIMoveEvent
         SetAIMoveEvent.RegisterListener(OnSetAIMoveEvent);
-
+        //Create a new vector two list path at the creation of the ship
+        path = new List<Vector2>();
+        //Set the nav2d to the node object in game
+        nav2d = GetNode<Navigation2D>("../Navigation2D");
     }
 
     private void OnSetAIMoveEvent(SetAIMoveEvent saime)
     {
-
+        //Sets the  process function as active when the move ai function is called from the AI state manager
+        SetProcess(saime.active);
     }
+
+    public override void _Process(float delta)
+    {
+        //How far the next movedistance is of the ship determined by the speed of the ship multiplied by the delta time interval
+        float walkDistance = delta * speed;
+        //Call the move along path with the walkDistance as the injected value
+        MoveAlongPath(walkDistance);
+    }
+
+    private void MoveAlongPath(float distance)
+    {
+        Vector2 lastPosition = ((Node2D)GetParent()).Position;
+
+        while (path.Count != 0)
+        {
+            float distanceBetweenPoints = lastPosition.DistanceTo(path[0]);
+
+            if (distance < distanceBetweenPoints)
+            {
+                ((Node2D)GetParent()).Position = lastPosition.LinearInterpolate(path[0], distance / distanceBetweenPoints);
+                return;
+            }
+
+            distance -= distanceBetweenPoints;
+            lastPosition = path[0];
+            path.Remove(lastPosition);
+        }
+
+        ((Node2D)GetParent()).Position = lastPosition;
+        SetProcess(false);
+    }
+
+    private void UpdateNavigationPath(Vector2 startPosition, Vector2 endPosition)
+    {
+        GD.Print("AIMovement - _Input: UpdateNavigationPath called");
+        //Get the vector2 points for the path
+        path.AddRange(nav2d.GetSimplePath(startPosition, endPosition, true));
+        //Start the process function to move towards the target position
+        SetProcess(true);
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+        // Mouse in viewport coordinates.
+        if (@event is InputEventMouseButton eventMouseButton)
+        {
+
+            GD.Print("AIMovement - _Input: Mouse be clicked");
+            UpdateNavigationPath(((Node2D)GetParent()).Position, eventMouseButton.Position);
+        }
+    }
+
     /*
     //Signal to send to the health script attached to the player
     [Signal]

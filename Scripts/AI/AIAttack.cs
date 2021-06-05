@@ -8,7 +8,7 @@ public class AIAttack : Node
     //List of weapons
     [Export] List<PackedScene> weapons = new List<PackedScene>();
     //The attack interval for the ship
-    float attackInterval;
+    float attackInterval = 1;
     //The timer to keep track of the attack interval for the AI
     Timer attackTimer;
     //Function called at the creation of the object
