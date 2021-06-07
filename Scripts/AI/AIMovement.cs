@@ -21,6 +21,8 @@ public class AIMovement : Node
         path = new List<Vector2>();
         //Set the nav2d to the node object in game
         nav2d = GetNode<Navigation2D>("../Navigation2D");
+        //Stop the _Process function from running constantly
+        SetProcess(false);
     }
 
     private void OnSetAIMoveEvent(SetAIMoveEvent saime)
@@ -43,6 +45,7 @@ public class AIMovement : Node
 
         while (path.Count != 0)
         {
+            GD.Print("AIMovement - MoveAlongPath: path size > 0");
             float distanceBetweenPoints = lastPosition.DistanceTo(path[0]);
 
             if (distance < distanceBetweenPoints)
@@ -57,14 +60,17 @@ public class AIMovement : Node
         }
 
         ((Node2D)GetParent()).Position = lastPosition;
-        SetProcess(false);
+        //SetProcess(false);
     }
 
     private void UpdateNavigationPath(Vector2 startPosition, Vector2 endPosition)
     {
         GD.Print("AIMovement - _Input: UpdateNavigationPath called");
+        GD.Print("AIMovement - _Input: startPosition = " + startPosition);
+        GD.Print("AIMovement - _Input: endPosition = " + endPosition);
         //Get the vector2 points for the path
         path.AddRange(nav2d.GetSimplePath(startPosition, endPosition, true));
+        GD.Print("AIMovement - _Input: path size = " + path.Count);
         //Start the process function to move towards the target position
         SetProcess(true);
     }
@@ -74,9 +80,11 @@ public class AIMovement : Node
         // Mouse in viewport coordinates.
         if (@event is InputEventMouseButton eventMouseButton)
         {
-
-            GD.Print("AIMovement - _Input: Mouse be clicked");
-            UpdateNavigationPath(((Node2D)GetParent()).Position, eventMouseButton.Position);
+            if (eventMouseButton.Pressed)
+            {
+                GD.Print("AIMovement - _Input: Mouse be clicked");
+                UpdateNavigationPath(((Node2D)GetParent()).GlobalPosition, eventMouseButton.GlobalPosition);
+            }
         }
     }
 
