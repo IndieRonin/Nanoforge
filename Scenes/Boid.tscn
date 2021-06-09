@@ -1,13 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Scripts/Boid.cs" type="Script" id=1]
 [ext_resource path="res://Textures/Ships/Ship3.png" type="Texture" id=2]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 256.0
-
-[sub_resource type="CircleShape2D" id=2]
-radius = 128.0
 
 [node name="Boid" type="Node2D"]
 script = ExtResource( 1 )
@@ -21,12 +18,5 @@ input_pickable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PerceptionRaduis"]
 shape = SubResource( 1 )
 
-[node name="SeperationRaduis" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SeperationRaduis"]
-shape = SubResource( 2 )
-
 [connection signal="area_entered" from="PerceptionRaduis" to="." method="OnPerceptionRaduisAreaEntered"]
 [connection signal="area_exited" from="PerceptionRaduis" to="." method="OnPerceptionRaduisAreaExited"]
-[connection signal="area_entered" from="SeperationRaduis" to="." method="OnSeperationRaduisAreaEntered"]
-[connection signal="area_exited" from="SeperationRaduis" to="." method="OnSeperationRaduisAreaExited"]

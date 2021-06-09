@@ -8,12 +8,19 @@ public class Boid : Node2D
     Vector2 velocity;
     //The acceleration of the boid
     Vector2 acceleration;
+    //The mouse position
+    Vector2 targetPos;
+    //The calculation vector dor the boids ==================================================
+    Vector2 cohesionVector = new Vector2();
+    Vector2 alignVector = new Vector2();
+    Vector2 seperationVector = new Vector2();
+    //=======================================================================================
     //A list of boids inside this boids perception area2D
     List<ulong> perceivedBoidsID = new List<ulong>();
     //The maximum speed of the boid
-    float maxSpeed = 200;
+    float maxSpeed = 10;
     //The force to follow the mouse
-    float mouseFollowForce = 0.05f;
+    float targetFollowForce = 0.05f;
     //The cohesion force of the boid
     float cohesionForce = 0.05f;
     //The elignment force of the boid
@@ -21,25 +28,39 @@ public class Boid : Node2D
     //The seperation force of the boid
     float seperationForce = 0.05f;
     //The view distance of the boid
-    float viewDistance = 50.0f;
+    float viewDistance = 256.0f;
     //The avoid distance for the boid
-    float avoidDistance = 20.0f;
+    float avoidDistance = 200.0f;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-
+        //Set the target of the ship to the ateroid
+        //The zero vector position is where the asteroid is located, should change it to a target later on
+        targetPos = Vector2.Zero;
     }
 
     // Called every physics frame. 'delta' is the elapsed time since the previous frame.
     public override void _PhysicsProcess(float delta)
     {
-        //Set hte position according to the velocity
-        Position += velocity;
-        //Set the velocity according ot the acceleration
-        velocity += acceleration;
+        //Set the vector for the target folowing
+        Vector2 targetVector = GlobalPosition.DirectionTo(targetPos) * maxSpeed * targetFollowForce;
+
+        //Update the boids forces
+        UpdateBoids();
+        //Apply the forces to the calculated vectors
+        cohesionVector *= cohesionForce;
+        alignVector *= alignForce;
+        seperationVector *= seperationForce;
         //Reset the acceleration to zero as to not acumulate the align and cohesion values over time
-        acceleration = Vector2.Zero;
+        acceleration = cohesionVector + alignVector + seperationVector + targetVector;
+        //Set the velocity according ot the acceleration
+        velocity = (velocity + acceleration).Clamped(maxSpeed);
+        //Look at the deisred direction
+        LookAt(velocity);
+        //Set the position according to the velocity
+        GlobalPosition += velocity;
+
     }
     //Each time a new perception area2d enters this boids perception it is added to the boids list
     public void OnPerceptionRaduisAreaEntered(Area2D area)
@@ -58,32 +79,42 @@ public class Boid : Node2D
         perceivedBoidsID.Remove(area.GetParent().GetInstanceId());
     }
     //Align this boids velocity to the surrounding boids general velocity
-    private Vector2 Align()
+    private void UpdateBoids()
     {
-        //The average vector of all the boid injected in the incoming array
-        Vector2 steering = new Vector2();
+        Vector2 flockCentre = new Vector2();
+
+
         //Add up all the velocities of the boids in the array
         foreach (ulong boid in perceivedBoidsID)
         {
-            //Get the velocity from the boid in the list
-            steering += ((Boid)GD.InstanceFromId(boid)).velocity;
+            //Get the position of the neighbour
+            Vector2 neighbourPos = ((Boid)GD.InstanceFromId(boid)).GlobalPosition;
+            //Add up all the velocities of the neighbours
+            alignVector += ((Boid)GD.InstanceFromId(boid)).velocity;
+            //Get the acumulated positions of all the neighbours 
+            flockCentre += neighbourPos;
+            //Get the distance to the neighbour
+            float distance = GlobalPosition.DistanceTo(neighbourPos);
+            //If the neighbour is within the avoid distance
+            if (distance > 0 && distance < avoidDistance)
+            {
+                //We calculate the avoid vector
+                seperationVector -= (neighbourPos - GlobalPosition).Normalized() * (avoidDistance / distance * maxSpeed);
+            }
+            if (perceivedBoidsID.Count > 0)
+            {
+                //Avarage out the alignment vector
+                alignVector /= perceivedBoidsID.Count;
+                //Avarage out the flocks centre
+                flockCentre /= perceivedBoidsID.Count;
+
+                //Get the direction to the centre of hte flock
+                Vector2 centreDirection = GlobalPosition.DirectionTo(flockCentre);
+                //Get the speed to move towards the centre
+                float centreSpeed = maxSpeed * (GlobalPosition.DistanceTo(flockCentre) / viewDistance);
+                //Set the centre vector
+                cohesionVector = centreDirection * centreSpeed;
+            }
         }
-        //If there are any boids in the list we run the code inside
-        if (perceivedBoidsID.Count > 0)
-        {
-            //Avarage out the velocity of all the boids that have been added up
-            steering /= perceivedBoidsID.Count;
-            //Set the boid to use the max speed
-            steering = steering.Normalized() * maxSpeed;
-            //Subtract the current velocity from the steering
-            steering -= velocity;
-            //Limit the steering vector to the max force
-            steering = steering.Normalized() * maxForce;
-        }
-        //Return the steering velocity
-        return steering;
     }
-
-
-
 }
