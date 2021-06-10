@@ -10,7 +10,7 @@
 radius = 32.0
 
 [sub_resource type="CircleShape2D" id=2]
-radius = 300.0
+radius = 256.0
 
 [node name="EnemyTemplate" type="Node2D"]
 script = ExtResource( 1 )
@@ -40,3 +40,6 @@ shape = SubResource( 2 )
 [node name="AttackTimer" type="Timer" parent="."]
 
 [node name="Navigation2D" type="Navigation2D" parent="."]
+
+[connection signal="area_entered" from="LineOfSight" to="Movement" method="OnLineOfSightAreaEntered"]
+[connection signal="area_exited" from="LineOfSight" to="Movement" method="OnLineOfSightAreaExited"]
