@@ -45,6 +45,9 @@ public class AIMovement : Node
     // Called every physics frame. 'delta' is the elapsed time since the previous frame.
     public override void _PhysicsProcess(float delta)
     {
+        float newFollowForce = 0.0f;
+        //As the AI aprouches the target the target follow force is reduced
+        if (((Node2D)GetParent()).GlobalPosition.DistanceTo(targetPos) > 200.0f) newFollowForce = ;
         //Set the vector for the target folowing
         Vector2 targetVector = ((Node2D)GetParent()).GlobalPosition.DirectionTo(targetPos) * maxSpeed * targetFollowForce;
 
@@ -56,6 +59,7 @@ public class AIMovement : Node
         seperationVector *= seperationForce;
         //Reset the acceleration to zero as to not acumulate the align and cohesion values over time
         acceleration = cohesionVector + alignVector + seperationVector + targetVector;
+
         //Set the velocity according ot the acceleration
         velocity = (velocity + acceleration).Clamped(maxSpeed);
         //Look at the deisred direction
