@@ -97,7 +97,6 @@ public class AIMovement : Node
             //Get the position of the neighbour
             Vector2 neighbourPos = ((Node2D)GD.InstanceFromId(boid)).GlobalPosition;
             //Add up all the velocities of the neighbours
-            //alignVector += ((AIMovement)GD.InstanceFromId(boid)).velocity;
             alignVector += (((AIMovement)((Node)GD.InstanceFromId(boid)).GetChild(2)).velocity);
             //Get the acumulated positions of all the neighbours 
             flockCentre += neighbourPos;
