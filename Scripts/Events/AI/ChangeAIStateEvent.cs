@@ -7,7 +7,9 @@ namespace EventCallback
     public class ChangeAIStateEvent : Event<ChangeAIStateEvent>
     {
         //The id for the ai the message is meant for
-        ulong aiID;
+        public ulong aiID;
+        //The ID of hte targeted node
+        public ulong targetID;
         //The new state for the AI controller
         public AIState newState;
     }

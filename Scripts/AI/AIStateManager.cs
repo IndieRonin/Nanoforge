@@ -24,7 +24,7 @@ public class AIStateManager : Node2D
     private void OnChangeAIStateEvent(ChangeAIStateEvent caise)
     {
         //If the change state is called and the states are the same we just return out of the function without doing anything
-        if(currentState == caise.newState) return;
+        if (currentState == caise.newState) return;
         //If the states are not hte same we set the current state to the new state
         currentState = caise.newState;
         //The bools used to set the states class to active 
@@ -47,14 +47,17 @@ public class AIStateManager : Node2D
         //Send the messages to the state classes for active settings =========================
         SetAIMoveEvent saime = new SetAIMoveEvent();
         saime.callerClass = "AIStateManager - OnChangeAIStateEvent()";
+        saime.aiID = caise.aiID;
         saime.active = moveState;
         saime.FireEvent();
         SetAITargetEvent saite = new SetAITargetEvent();
         saite.callerClass = "AIStateManager - OnChangeAIStateEvent()";
+        saime.aiID = caise.aiID;
         saite.active = targetState;
         saite.FireEvent();
         SetAIAttackEvent saiae = new SetAIAttackEvent();
         saiae.callerClass = "AIStateManager - OnChangeAIStateEvent()";
+        saiae.aiID = caise.aiID;
         saiae.active = attackState;
         saiae.FireEvent();
         //====================================================================================
