@@ -41,8 +41,6 @@ shape = SubResource( 1 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LineOfSight"]
 shape = SubResource( 2 )
 
-[node name="AttackTimer" type="Timer" parent="."]
-
 [node name="Navigation2D" type="Navigation2D" parent="."]
 
 [connection signal="area_entered" from="LineOfSight" to="Movement" method="OnLineOfSightAreaEntered"]

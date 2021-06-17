@@ -10,8 +10,6 @@ public class AIMovement : Node
     public Vector2 velocity;
     //The acceleration of the boid
     Vector2 acceleration;
-    //The targets position
-    Vector2 targetPos;
     //The node of the target
     [Export] Node2D target;
     //The distance to the target
@@ -40,19 +38,15 @@ public class AIMovement : Node
     //The view distance of the boid
     [Export] float viewDistance = 256.0f;
     //The avoid distance for the boid
-    [Export] float avoidDistance = 128.0f;
+    [Export] float avoidDistance = 100.0f;
     //The distance the ship will stop at and change state to attacking
-    [Export] float stopDistance = 500.0f;
+    [Export] float stopDistance = 100.0f;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        //Set the target of the ship to the ateroid
-        //The zero vector position is where the asteroid is located, should change it to a target later on
-        targetPos = Vector2.Zero;
         //Regestir this script to listen for the set ai movement event
         SetAIMoveEvent.RegisterListener(OnSetAIMoveEvent);
-
     }
 
     private void OnSetAIMoveEvent(SetAIMoveEvent saime)
@@ -65,10 +59,20 @@ public class AIMovement : Node
     // Called every physics frame. 'delta' is the elapsed time since the previous frame.
     public override void _PhysicsProcess(float delta)
     {
-        //The distance to the target
-        distanceToTarget = ((Node2D)GetParent()).GlobalPosition.DistanceTo(targetPos);
-        //Set the vector for the target folowing
-        Vector2 targetVector = ((Node2D)GetParent()).GlobalPosition.DirectionTo(targetPos) * maxSpeed * targetFollowForce;
+        if (target != null)
+        {
+            //The distance to the target
+            distanceToTarget = ((Node2D)GetParent()).GlobalPosition.DistanceTo(target.GlobalPosition);
+            //Set the vector for the target folowing
+            targetVector = ((Node2D)GetParent()).GlobalPosition.DirectionTo(target.GlobalPosition) * maxSpeed * targetFollowForce;
+        }
+        else
+        {
+            //Set the distance from the ship to the distance to the centre of the map 
+            distanceToTarget = ((Node2D)GetParent()).GlobalPosition.DistanceTo(Vector2.Zero);
+            //Set the vector for the target folowing
+            targetVector = Vector2.Zero;
+        }
         //Update the boids forces
         UpdateBoids();
         //Apply the forces to the calculated vectors
@@ -83,12 +87,13 @@ public class AIMovement : Node
             if ((distanceToTarget - stopDistance) > 0)
             {
                 //We set the speed to reduce as the difference in the distance reduces
-                speed = speed * (1 / (distanceToTarget - stopDistance));
+                //speed = speed * (1 / (distanceToTarget - stopDistance));
+                speed = Mathf.Lerp(speed, 0.0f, 0.5f);
             }
             else
             {
                 //Else if the distance between the stopdistance and distancetotarget is less than zero we just set the speed of the AI ship to zero
-                speed = 0;
+                speed = Mathf.Lerp(speed, 0.0f, 1.0f);
                 //Send the event messsage to change the AIs state
                 ChangeAIStateEvent caise = new ChangeAIStateEvent();
                 caise.callerClass = "AIMovement - _PhysicsProcess()";
@@ -130,7 +135,12 @@ public class AIMovement : Node
 
         if (area.IsInGroup("Turret"))
         {
-
+            //If the target is null we can add a new target
+            if (target != null)
+            {
+                //If the hitbox area2D on the area 2d is in the turret group we set it as a target
+                target = (Node2D)area.GetParent();
+            }
         }
 
     }
@@ -147,7 +157,10 @@ public class AIMovement : Node
 
         if (area.IsInGroup("Turret"))
         {
-
+            //if the target is null we just exit out of the function or else we are going to try and access an empty variable
+            if (target == null) return;
+            //If the area2D leaving the range of the ship is the target we set the target back to null
+            if (area.GetParent().GetInstanceId() == target.GetInstanceId()) target = null;
         }
     }
     //Align this boids velocity to the surrounding boids general velocity
