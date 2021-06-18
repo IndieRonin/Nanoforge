@@ -7,16 +7,15 @@
 [node name="TestScene" type="Node"]
 
 [node name="TurretTemplate" parent="." instance=ExtResource( 3 )]
-position = Vector2( 452, 672 )
 
 [node name="EnemyTemplate" parent="." instance=ExtResource( 1 )]
 position = Vector2( 1091.09, -191.508 )
 
 [node name="EnemyTemplate2" parent="." instance=ExtResource( 1 )]
-position = Vector2( 646.14, 724.686 )
+position = Vector2( 1250.14, 304.686 )
 
 [node name="EnemyTemplate3" parent="." instance=ExtResource( 1 )]
-position = Vector2( 304.93, 507.667 )
+position = Vector2( 928.93, 551.667 )
 
 [node name="EnemyTemplate4" parent="." instance=ExtResource( 1 )]
 position = Vector2( 1063.37, -589.643 )

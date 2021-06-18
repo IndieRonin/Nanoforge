@@ -23,6 +23,8 @@ public class AIStateManager : Node2D
     }
     private void OnChangeAIStateEvent(ChangeAIStateEvent caise)
     {
+        if (caise.aiID != GetInstanceId()) return;
+        GD.Print("AIStateManager - OnChangeAIStateEvent(): caise.aiID = " + caise.aiID);
         //If the change state is called and the states are the same we just return out of the function without doing anything
         if (currentState == caise.newState) return;
         //If the states are not hte same we set the current state to the new state
@@ -63,5 +65,11 @@ public class AIStateManager : Node2D
         saiae.active = attackState;
         saiae.FireEvent();
         //====================================================================================
+    }
+
+    public override void _ExitTree()
+    {
+        //The listener for the AIs state change event unregister
+        ChangeAIStateEvent.UnregisterListener(OnChangeAIStateEvent);
     }
 }

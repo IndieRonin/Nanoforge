@@ -38,11 +38,11 @@ public class AIMovement : Node
     //The seperation force of the boid
     [Export] float seperationForce = 0.05f;
     //The view distance of the boid
-    [Export] float viewDistance = 256.0f;
+    [Export] float viewDistance = 512.0f;
     //The avoid distance for the boid
     [Export] float avoidDistance = 100.0f;
     //The distance the ship will stop at and change state to attacking
-    [Export] float stopDistance = 100.0f;
+    [Export] float stopDistance = 256.0f;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -71,14 +71,14 @@ public class AIMovement : Node
             //The distance to the target
             distanceToTarget = ((Node2D)GetParent()).GlobalPosition.DistanceTo(target.GlobalPosition);
             //Set the vector for the target folowing
-            targetVector = ((Node2D)GetParent()).GlobalPosition.DirectionTo(target.GlobalPosition) * maxSpeed * targetForce;
+            targetVector = ((Node2D)GetParent()).GlobalPosition.DirectionTo(target.GlobalPosition) * maxSpeed;
         }
         else
         {
             //Set the distance from the ship to the distance to the centre of the map 
             distanceToTarget = ((Node2D)GetParent()).GlobalPosition.DistanceTo(targetPoint);
             //Set the vector for the target folowing
-            targetVector = targetPoint;
+            targetVector = ((Node2D)GetParent()).GlobalPosition.DirectionTo(targetPoint) * maxSpeed;
         }
         //Update the boids forces
         UpdateBoids();
@@ -109,7 +109,7 @@ public class AIMovement : Node
         }
         else
         {
-            //Set the speed to the maximum speed
+            //Set the speed to the maximum speed if hte ship is not within the stop distance yet
             speed = maxSpeed;
         }
         //Reset the acceleration to zero as to not acumulate the align and cohesion values over time
@@ -137,6 +137,7 @@ public class AIMovement : Node
 
         if (area.IsInGroup("Turret"))
         {
+
             //If the target is null we can add a new target
             if (target == null)
             {
@@ -145,7 +146,6 @@ public class AIMovement : Node
             }
         }
     }
-
     private void ReachedTarget()
     {
         //Send the event messsage to change the AIs state
@@ -158,14 +158,11 @@ public class AIMovement : Node
         //Sets the physics process to false for the movement class when we switch to the attack state
         SetPhysicsProcess(false);
     }
-
     private void ReachedPoint()
     {
-        GD.Print("AIMovement - _PhysicsProcess(): Ship(" + GetParent().GetInstanceId() + ") reached point");
         //Sets the physics process to false for the movement class when we switch to the attack state
         SetPhysicsProcess(false);
     }
-
     //If a area2D of the perception type leaves this boids perception area it is removed from the list
     public void OnLineOfSightAreaExited(Area2D area)
     {

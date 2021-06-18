@@ -13,7 +13,7 @@ public class Beam : Node2D
     //The refference to the line 2d representing the beam
     Line2D beam;
     //The refference for the particle2d node in the scene for the hit particle for the beam
-    CPUParticles2D hitParticle;
+    Particles2D hitParticle;
     //The timer for the relod time for the weapon
     Timer reloadTimer;
     // Called when the node enters the scene tree for the first time.
@@ -21,8 +21,10 @@ public class Beam : Node2D
     {
         //Linking the line2d node beam to the beam line2d declared in the scripts beginning
         beam = GetNode<Line2D>("LineBeam");
+        beam.Visible = false;
         //Linking the particle2D from the scene to the delcared one in the script
-        hitParticle = GetNode<CPUParticles2D>("HitParticle");
+        hitParticle = GetNode<Particles2D>("HitParticle");
+        hitParticle.Visible = false;
         //The reference fot the reload timer in the scene
         reloadTimer = GetNode<Timer>("ReloadTimer");
         //Set the reload time for the weapon on creation
@@ -36,25 +38,31 @@ public class Beam : Node2D
         //Check if the fire wepon ID was meant for this weapon
         if (fwe.weaponID == GetInstanceId())
         {
+            GD.Print("Beam - OnFireWeaponEvent():Beam shooting now pew pew");
             //Once the weapon has fire the reload timer is started
             reloadTimer.Start();
-            //Grab a snapshot of the physics side of currents world 
-            Physics2DDirectSpaceState worldState = GetWorld2d().DirectSpaceState;
-            //Shoot the ray in the captured world instance
-            Godot.Collections.Dictionary hits = worldState.IntersectRay(GlobalPosition, GetGlobalMousePosition(), new Godot.Collections.Array { GetParent().GetParent() });
-            //Check if there was a hit
-            if (hits.Count > 0)
-            {
-                //Change the line2d end position if there was a hit
-                //hitPos = (Vector2)hits["position"];
-                if (hits.Contains("collider"))
-                {
-                    if (((Node)hits["collider"]).IsInGroup("Enemies"))
-                    {
-                    }
-                }
-            }
+            // //Grab a snapshot of the physics side of currents world 
+            // Physics2DDirectSpaceState worldState = GetWorld2d().DirectSpaceState;
+            // //Shoot the ray in the captured world instance
+            // Godot.Collections.Dictionary hits = worldState.IntersectRay(GlobalPosition, GetGlobalMousePosition(), new Godot.Collections.Array { GetParent().GetParent() });
+            // //Check if there was a hit
+            // if (hits.Count > 0)
+            // {
+            //     //Change the line2d end position if there was a hit
+            //     //hitPos = (Vector2)hits["position"];
+            //     if (hits.Contains("collider"))
+            //     {
+            //         if (((Node)hits["collider"]).IsInGroup("Enemies"))
+            //         {
+            //         }
+            //     }
+            // }
         }
+
+    }
+
+    private void ShootAnimation()
+    {
 
     }
 
