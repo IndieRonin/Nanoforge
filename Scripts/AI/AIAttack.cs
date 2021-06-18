@@ -23,15 +23,27 @@ public class AIAttack : Node
     //Called when the SetAIAttackEvent message is recieved
     private void OnSetAIAttackEvent(SetAIAttackEvent saiae)
     {
-        //target = saiae.
-        foreach (Node2D weapon in weapons)
+        //Check if the target id is 0
+        if (saiae.targetID == 0)
         {
-            //We send a message to fire the weapon with the weapons corresponding instance id to identify the message
-            FireWeaponEvent fwe = new FireWeaponEvent();
-            fwe.callerClass = "AIAttack - OnSetAIAttackEvent()";
-            fwe.weaponID = weapon.GetInstanceId();
-            fwe.FireEvent();
+            //If the targets ID is 0 we print the error and return out of the function
+            GD.Print("AIAttack - OnSetAIAttackEvent: targetID is null");
+            return;
         }
+        //Check if the ai id is the same as the parents id
+        if (saiae.aiID == GetParent().GetInstanceId())
+        {
+            GD.Print("AIAttack - OnSetAIAttackEvent: " + "Ship(" + GetParent().GetInstanceId() + ") Attacking turret pew pew pew!!!!");
+            // foreach (Node2D weapon in weapons)
+            // {
+            //     //We send a message to fire the weapon with the weapons corresponding instance id to identify the message
+            //     FireWeaponEvent fwe = new FireWeaponEvent();
+            //     fwe.callerClass = "AIAttack - OnSetAIAttackEvent()";
+            //     fwe.weaponID = weapon.GetInstanceId();
+            //     fwe.FireEvent();
+            // }
+        }
+
     }
 }
 

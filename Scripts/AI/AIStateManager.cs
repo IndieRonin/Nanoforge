@@ -48,16 +48,18 @@ public class AIStateManager : Node2D
         SetAIMoveEvent saime = new SetAIMoveEvent();
         saime.callerClass = "AIStateManager - OnChangeAIStateEvent()";
         saime.aiID = caise.aiID;
+        saime.targetID = caise.targetID;
         saime.active = moveState;
         saime.FireEvent();
         SetAITargetEvent saite = new SetAITargetEvent();
         saite.callerClass = "AIStateManager - OnChangeAIStateEvent()";
-        saime.aiID = caise.aiID;
+        saite.aiID = caise.aiID;
         saite.active = targetState;
         saite.FireEvent();
         SetAIAttackEvent saiae = new SetAIAttackEvent();
         saiae.callerClass = "AIStateManager - OnChangeAIStateEvent()";
         saiae.aiID = caise.aiID;
+        saiae.targetID = caise.targetID;
         saiae.active = attackState;
         saiae.FireEvent();
         //====================================================================================

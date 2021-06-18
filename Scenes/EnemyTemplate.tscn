@@ -30,13 +30,13 @@ script = ExtResource( 3 )
 [node name="Hitbox" type="Area2D" parent="." groups=[
 "AIShip",
 ]]
+input_pickable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource( 1 )
 
-[node name="LineOfSight" type="Area2D" parent="." groups=[
-"AIShip",
-]]
+[node name="LineOfSight" type="Area2D" parent="."]
+input_pickable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LineOfSight"]
 shape = SubResource( 2 )

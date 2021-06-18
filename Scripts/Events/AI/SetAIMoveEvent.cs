@@ -7,6 +7,8 @@ namespace EventCallback
     {
         //The ID for the AI ship listeneing for the message
         public ulong aiID;
+        //The targets id to be passed to teh movement class
+        public ulong targetID;
         //The active state for the AI state class
         public bool active;
     }

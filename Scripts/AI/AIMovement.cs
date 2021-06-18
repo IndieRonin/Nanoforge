@@ -11,7 +11,9 @@ public class AIMovement : Node
     //The acceleration of the boid
     Vector2 acceleration;
     //The node of the target
-    [Export] Node2D target;
+    Node2D target = null;
+    //The point the boid wil move to
+    Vector2 targetPoint;
     //The distance to the target
     float distanceToTarget;
     //Set the vector for the target folowing
@@ -28,7 +30,7 @@ public class AIMovement : Node
     //The maximum speed of the boid
     [Export] float speed = 5;
     //The force to follow the mouse
-    [Export] float targetFollowForce = 0.05f;
+    [Export] float targetForce = 0.05f;
     //The cohesion force of the boid
     [Export] float cohesionForce = 0.05f;
     //The elignment force of the boid
@@ -47,13 +49,18 @@ public class AIMovement : Node
     {
         //Regestir this script to listen for the set ai movement event
         SetAIMoveEvent.RegisterListener(OnSetAIMoveEvent);
+        //Set the target point to the centre of the game scene 0,0
+        targetPoint = Vector2.Zero;
     }
 
     private void OnSetAIMoveEvent(SetAIMoveEvent saime)
     {
-        //if(saime)
-        //Set the physics process to true so it runs in the gam loop again
-        SetPhysicsProcess(true);
+        //Check if the move active variable is true and if the move class belongs to the tright ai
+        if (saime.aiID == GetParent().GetInstanceId())
+        {
+            //Set the physics process to true so it runs in the gam loop again
+            if (saime.active == true) SetPhysicsProcess(true);
+        }
     }
 
     // Called every physics frame. 'delta' is the elapsed time since the previous frame.
@@ -64,14 +71,14 @@ public class AIMovement : Node
             //The distance to the target
             distanceToTarget = ((Node2D)GetParent()).GlobalPosition.DistanceTo(target.GlobalPosition);
             //Set the vector for the target folowing
-            targetVector = ((Node2D)GetParent()).GlobalPosition.DirectionTo(target.GlobalPosition) * maxSpeed * targetFollowForce;
+            targetVector = ((Node2D)GetParent()).GlobalPosition.DirectionTo(target.GlobalPosition) * maxSpeed * targetForce;
         }
         else
         {
             //Set the distance from the ship to the distance to the centre of the map 
-            distanceToTarget = ((Node2D)GetParent()).GlobalPosition.DistanceTo(Vector2.Zero);
+            distanceToTarget = ((Node2D)GetParent()).GlobalPosition.DistanceTo(targetPoint);
             //Set the vector for the target folowing
-            targetVector = Vector2.Zero;
+            targetVector = targetPoint;
         }
         //Update the boids forces
         UpdateBoids();
@@ -79,30 +86,25 @@ public class AIMovement : Node
         cohesionVector *= cohesionForce;
         alignVector *= alignForce;
         seperationVector *= seperationForce;
+        targetVector *= targetForce;
         //If the distance to the target is smaller than the stoping distance it will reduce its speed to zero
-        //if (distanceToTarget < stopDistance) targetVector = targetVector.LinearInterpolate(Vector2.Zero, 0.1f);
         if (distanceToTarget < stopDistance)
         {
-            //If the distane between the stop distance and the distanceottarget is greater than zero
-            if ((distanceToTarget - stopDistance) > 0)
+            //We need to star slowing down all movement
+            speed = Mathf.Lerp(speed, 0.0f, 0.1f);
+            //If the speed if slower than 0.01f
+            if (speed < 0.005f)
             {
-                //We set the speed to reduce as the difference in the distance reduces
-                //speed = speed * (1 / (distanceToTarget - stopDistance));
-                speed = Mathf.Lerp(speed, 0.0f, 0.5f);
-            }
-            else
-            {
-                //Else if the distance between the stopdistance and distancetotarget is less than zero we just set the speed of the AI ship to zero
-                speed = Mathf.Lerp(speed, 0.0f, 1.0f);
-                //Send the event messsage to change the AIs state
-                ChangeAIStateEvent caise = new ChangeAIStateEvent();
-                caise.callerClass = "AIMovement - _PhysicsProcess()";
-                caise.aiID = GetParent().GetInstanceId(); //Send this scripts parents ID, the ID of the main ship node
-                //caise.targetID = target.GetInstanceId(); //Send the target nodes instance id with the message
-                caise.newState = AIState.ATTACK; // The new state to send to the ai stat manager
-                caise.FireEvent(); //Sends the message
-                //Sets the physics process to false when we switch to the attack state
-                SetPhysicsProcess(false);
+                //If we don't have a target
+                if (target == null)
+                {
+                    ReachedPoint();
+                }
+                //If we have a target
+                else
+                {
+                    ReachedTarget();
+                }
             }
         }
         else
@@ -136,14 +138,34 @@ public class AIMovement : Node
         if (area.IsInGroup("Turret"))
         {
             //If the target is null we can add a new target
-            if (target != null)
+            if (target == null)
             {
                 //If the hitbox area2D on the area 2d is in the turret group we set it as a target
                 target = (Node2D)area.GetParent();
             }
         }
-
     }
+
+    private void ReachedTarget()
+    {
+        //Send the event messsage to change the AIs state
+        ChangeAIStateEvent caise = new ChangeAIStateEvent();
+        caise.callerClass = "AIMovement - _PhysicsProcess()";
+        caise.aiID = GetParent().GetInstanceId(); //Send this scripts parents ID, the ID of the main ship node
+        caise.targetID = target.GetInstanceId(); //Send the target nodes instance id with the message
+        caise.newState = AIState.ATTACK; // The new state to send to the ai stat manager
+        caise.FireEvent(); //Sends the message
+        //Sets the physics process to false for the movement class when we switch to the attack state
+        SetPhysicsProcess(false);
+    }
+
+    private void ReachedPoint()
+    {
+        GD.Print("AIMovement - _PhysicsProcess(): Ship(" + GetParent().GetInstanceId() + ") reached point");
+        //Sets the physics process to false for the movement class when we switch to the attack state
+        SetPhysicsProcess(false);
+    }
+
     //If a area2D of the perception type leaves this boids perception area it is removed from the list
     public void OnLineOfSightAreaExited(Area2D area)
     {
@@ -201,7 +223,6 @@ public class AIMovement : Node
             }
         }
     }
-
     public override void _ExitTree()
     {
         //Unregister the listener for the SetAIMoveEvent
