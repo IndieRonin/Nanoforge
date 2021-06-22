@@ -13,6 +13,7 @@ public class AIAttack : Node
     float attackInterval = 1;
     //The timer to keep track of the attack interval for the AI
     Timer attackTimer;
+    //The target the beam needs to be drawn toward
     Node2D target;
     //Function called at the creation of the object
     public override void _Ready()
@@ -68,14 +69,14 @@ public class AIAttack : Node
         {
             //Start the Physics process to keep track of the distance between the target and the ai ship
             SetPhysicsProcess(true);
-
-            GD.Print("AIAttack - OnSetAIAttackEvent: " + "Ship(" + GetParent().GetInstanceId() + ") Attacking turret pew pew pew!!!!");
+            //Interate through the weapons and send the fire message to them
             foreach (Node2D weapon in weapons)
             {
                 //We send a message to fire the weapon with the weapons corresponding instance id to identify the message
                 FireWeaponEvent fwe = new FireWeaponEvent();
                 fwe.callerClass = "AIAttack - OnSetAIAttackEvent()";
                 fwe.weaponID = weapon.GetInstanceId();
+                fwe.target = GD.InstanceFromId(saiae.targetID) as Node2D;
                 fwe.FireEvent();
             }
         }
