@@ -13,6 +13,7 @@ one_shot = true
 [node name="MuzzleFlashTimer" type="Timer" parent="."]
 
 [node name="Trail" type="Line2D" parent="."]
+points = PoolVector2Array( 0, 0, 50, 0 )
 
 [connection signal="timeout" from="ReloadTimer" to="." method="OnReloadTimerTimeout"]
 [connection signal="timeout" from="FireDurationTimer" to="." method="OnFireDurationTimerTimeout"]
