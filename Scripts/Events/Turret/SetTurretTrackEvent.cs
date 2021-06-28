@@ -3,7 +3,7 @@ using System;
 
 namespace EventCallback
 {
-    public class SetTurretTargetEvent : Event<SetTurretTargetEvent>
+    public class SetTurretTrackEvent : Event<SetTurretTrackEvent>
     {
         //The ID for the AI ship listeneing for the message
         public ulong turretID;

@@ -28,37 +28,31 @@ public class Turret : Node2D
         //If the states are not hte same we set the current state to the new state
         currentState = ctse.newState;
         //The bools used to set the states class to active 
-        bool moveState = false, targetState = false, attackState = false;
+        bool trackState = false, attackState = false;
         //Get the state that should be set to active depending on the new state in the ChangeAIStateEvent
         switch (ctse.newState)
         {
             case TurretStates.NONE:
                 break;
             case TurretStates.TRACK:
-                targetState = true;
+                trackState = true;
                 break;
             case TurretStates.ATTACK:
                 attackState = true;
                 break;
         }
         //Send the messages to the state classes for active settings =========================
-        SetAIMoveEvent saime = new SetAIMoveEvent();
-        saime.callerClass = "AIStateManager - OnChangeAIStateEvent()";
-        saime.aiID = ctse.turretID;
-        saime.targetID = ctse.targetID;
-        saime.active = moveState;
-        saime.FireEvent();
-        SetAITargetEvent saite = new SetAITargetEvent();
-        saite.callerClass = "AIStateManager - OnChangeAIStateEvent()";
-        saite.aiID = ctse.turretID;
-        saite.active = targetState;
-        saite.FireEvent();
-        SetAIAttackEvent saiae = new SetAIAttackEvent();
-        saiae.callerClass = "AIStateManager - OnChangeAIStateEvent()";
-        saiae.aiID = ctse.turretID;
-        saiae.targetID = ctse.targetID;
-        saiae.active = attackState;
-        saiae.FireEvent();
+        SetTurretTrackEvent stte = new SetTurretTrackEvent();
+        stte.callerClass = "AIStateManager - OnChangeAIStateEvent()";
+        stte.turretID = ctse.turretID;
+        stte.active = trackState;
+        stte.FireEvent();
+        SetTurretAttackEvent stae = new SetTurretAttackEvent();
+        stae.callerClass = "AIStateManager - OnChangeAIStateEvent()";
+        stae.turretID = ctse.turretID;
+        stae.targetID = ctse.targetID;
+        stae.active = attackState;
+        stae.FireEvent();
         //====================================================================================
     }
 

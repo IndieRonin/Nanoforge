@@ -33,8 +33,8 @@ public class Bullet : Node2D
         //Clear the points on the trail as not to keep adding points to the trail
         trail.ClearPoints();
         //Ad the start and end point to the trail
-        trail.AddPoint(origin);
-        trail.AddPoint(target);
+        //trail.AddPoint(origin);
+        //trail.AddPoint(target);
         //Make the point vissible
         trail.Visible = true;
     }
