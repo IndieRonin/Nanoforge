@@ -3,12 +3,7 @@ using System;
 using EventCallback;
 public class Projectile : Node2D
 {
-    //The line renderer for the tail
-    Line2D trail;
-    //The length of the trail
-    int trailLength = 50;
-    //The color of the trail
-    Color trailColor;
+
     //The timer for the relod time for the weapon
     Timer reloadTimer;
     //The time use to control the amount of time the weapon is allowed to fire
@@ -23,8 +18,6 @@ public class Projectile : Node2D
     {
         //Register the fire weapon fire listener for this weapon
         FireWeaponEvent.RegisterListener(OnFireWeaponEvent);
-        //Reference the line2D in the scene wit hthe one in code
-        trail = GetNode<Line2D>("Trail");
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -51,20 +44,10 @@ public class Projectile : Node2D
     //Draws the beam to the target
     private void DrawProjectile(Vector2 origin, Vector2 target)
     {
-        //Might need to use the process section to move the trail, not going to add and remove point's the whole time
 
-        //Clear the points on the trail as not to keep adding points to the trail
-        trail.ClearPoints();
-        //Ad the start and end point to the trail
-        trail.AddPoint(origin);
-        trail.AddPoint(target);
-        //Make the point vissible
-        trail.Visible = true;
     }
     private void HideVFX()
     {
-        //Make the beam invisible
-        trail.Visible = false;
     }
 
     //The function called when the reload timer for the weapon reaches 0
