@@ -21,8 +21,12 @@ public class TurretTracking : Node
     // Called every frame. 'delta' is the elapsed time since the previous physics update.
     public override void _PhysicsProcess(float delta)
     {
+        //Get the vector direction to the target
+        Vector2 dir = targets[0].GlobalPosition - ((Node2D)GetParent()).GlobalPosition;
+        //Normalize the vector direction
+        dir = dir.Normalized();
         //The angle to the target in radians
-        float newAngle = ((Node2D)GetParent()).GetAngleTo(targets[0].GlobalPosition);
+        float newAngle = Mathf.Atan2(dir.y, dir.x);
         //Set the rotation of hte parent object to the lerped angle of the new angle
         ((Node2D)GetParent()).Rotation = Mathf.LerpAngle(((Node2D)GetParent()).Rotation, newAngle, turnSpeed);
     }
