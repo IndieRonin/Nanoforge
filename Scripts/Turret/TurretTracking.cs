@@ -6,6 +6,8 @@ public class TurretTracking : Node
 {
     //The list of targets node to track
     List<Node2D> targets = new List<Node2D>();
+    //The speed the turret can turn at
+    [Export] float turnSpeed = 0.1f;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -19,11 +21,10 @@ public class TurretTracking : Node
     // Called every frame. 'delta' is the elapsed time since the previous physics update.
     public override void _PhysicsProcess(float delta)
     {
-        Vector2 turnVector;
-        turnVector = ((Node2D)GetParent()).GlobalPosition.LinearInterpolate(targets[0].GlobalPosition, 0.01f).Normalized();
-        
-        //Look at the target
-        ((Node2D)GetParent()).LookAt(turnVector);
+        //The angle to the target in radians
+        float newAngle = ((Node2D)GetParent()).GetAngleTo(targets[0].GlobalPosition);
+        //Set the rotation of hte parent object to the lerped angle of the new angle
+        ((Node2D)GetParent()).Rotation = Mathf.LerpAngle(((Node2D)GetParent()).Rotation, newAngle, turnSpeed);
     }
     private void OnSetTurretTrackEvent(SetTurretTrackEvent stte)
     {
