@@ -41,7 +41,7 @@ public class IO : Control
 
         itemList = GetNode<ItemList>("MainVBox/ItemList");
         //Save();
-        ListFilesInDirectory();
+        //ListFilesInDirectory();
     }
 
     private void Save() //Input some random save junk here
@@ -83,9 +83,7 @@ public class IO : Control
                 saveData = file.GetVar() as Godot.Collections.Dictionary<string, int>;
                 //Close the access point created for the file
                 file.Close();
-
             }
-
         }
     }
 
