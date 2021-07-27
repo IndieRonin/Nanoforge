@@ -4,39 +4,28 @@ using EventCallback;
 
 public class InputManager : Node
 {
-    //The touch positions
-    Vector2 touchStart, touchEnd;
+    //If the right mouse bton is held in
+    bool rightMouseHeld = false;
     public override void _Ready()
     {
     }
     public override void _UnhandledInput(InputEvent @event)
     {
-        //   if (@event is InputEventScreenDrag screenDrag)
-        // {
-        //     //Convert the movement vector to a positive number to check if thier is movememnt
-        //     Vector2 moveCheck = new Vector2(Mathf.Abs(screenDrag.Relative.x), Mathf.Abs(screenDrag.Relative.y));
-        //     //If the drag movement is greater than one we move the camera so we don't make micro udjustments every time we acidentally touch the screen
-        //     if (moveCheck > Vector2.One)
-        //     {
-        //         CameraManagerEvent cmei = new CameraManagerEvent();
-        //         cmei.draggingCamera = true;
-        //         cmei.dragMovememnt = (screenDrag.Relative * -2);
-        //         cmei.FireEvent();
-        //     }
-        //     else
-        //     {
-        //         CameraManagerEvent cmei = new CameraManagerEvent();
-        //         cmei.draggingCamera = false;
-        //         cmei.dragMovememnt = Vector2.Zero;
-        //         cmei.FireEvent();
-        //     }
-        // }
         //If any mouse buttons activity is detected
         if (@event is InputEventMouseButton iemb)
         {
             //If the mouse buttons are pressed
             if (iemb.IsPressed())
             {
+                if (iemb.ButtonIndex == (int)ButtonList.Right)
+                {
+                    CameraMoveEvent mce = new CameraMoveEvent();
+                    mce.callerClass = "InputManager - _UnhandledInput";
+                    mce.moveCamera = true;
+                    mce.FireEvent();
+
+                    rightMouseHeld = true;
+                }
                 //If the mouse wheel up is 'pressed'
                 if (iemb.ButtonIndex == (int)ButtonList.WheelUp)
                 {
@@ -54,6 +43,18 @@ public class InputManager : Node
                     cze.callerClass = "InputManager - _UnhandledInput";
                     cze.zoomAmount = 0.5f;
                     cze.FireEvent();
+                }
+            }
+            else
+            {
+                if (rightMouseHeld)
+                {
+                    CameraMoveEvent mce = new CameraMoveEvent();
+                    mce.callerClass = "InputManager - _UnhandledInput";
+                    mce.moveCamera = false;
+                    mce.FireEvent();
+
+                    rightMouseHeld = false;
                 }
             }
         }

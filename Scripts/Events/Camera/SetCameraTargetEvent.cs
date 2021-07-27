@@ -1,5 +1,6 @@
 using Godot;
 using System;
+
 namespace EventCallback
 {
     public class SetCameraTargetEvent : Event<SetCameraTargetEvent>

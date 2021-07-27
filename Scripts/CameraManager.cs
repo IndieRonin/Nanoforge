@@ -7,9 +7,13 @@ public class CameraManager : Camera2D
     //The target node that has to be followed
     Node2D target;
     //The zoom clamp for the camera
-    [Export] float minZoom, maxZoom, zoomSpeed;
+    [Export] float minZoom, maxZoom, zoomSpeed, moveSpeed;
     //The current zoom level
     Vector2 zoomLevel;
+    //If the camera is zoomed
+    bool zoomCamera;
+    //If the camera is being moved
+    bool moveCamera;
 
     public override void _Ready()
     {
@@ -17,6 +21,8 @@ public class CameraManager : Camera2D
         zoomLevel = Zoom;
         //Add the listener for hte camera zoom event to the camera script
         CameraZoomEvent.RegisterListener(OnCameraZoomEvent);
+        //Register the cmera movement event listener
+        CameraMoveEvent.RegisterListener(OnCameraMoveEvent);
     }
 
     private void OnSetCameraTargetEvent(SetCameraTargetEvent scte)
@@ -38,6 +44,20 @@ public class CameraManager : Camera2D
         target.AddChild(this);
     }
 
+    private void OnCameraMoveEvent(CameraMoveEvent cme)
+    {
+        if (cme.moveCamera)
+        {
+            //Set the move camera movement to true
+            moveCamera = true;
+        }
+        else
+        {
+            //Set the camera movement to false
+            moveCamera = false;
+        }
+    }
+
     private void OnResetCameraTarget()
     {
         //If the camera node has a parent
@@ -57,18 +77,29 @@ public class CameraManager : Camera2D
         //Set the process function to true to start the linear interpolation  
         GD.Print("CameraManager - OnCameraZoomEvent: zoomLevel = " + zoomLevel);
         GD.Print("CameraManager - OnCameraZoomEvent: Zoom = " + Zoom);
-        SetProcess(true);
+        zoomCamera = true;
     }
     public override void _Process(float delta)
     {
-        //Add he zoom amount to the 
-        Zoom = Zoom.LinearInterpolate(zoomLevel, zoomSpeed);
-        //If the distance between the zoomLevel and the Zoom are close enough we stop the process
-        if (Zoom.DistanceTo(zoomLevel) < 0.01f)
+        //If the camera is being zoomed
+        if (zoomCamera)
         {
-            SetProcess(false);
-            GD.Print("CameraManager - _Process: Stopped");
+            //Add he zoom amount to the 
+            Zoom = Zoom.LinearInterpolate(zoomLevel, zoomSpeed);
+            //If the distance between the zoomLevel and the Zoom are close enough we stop the process
+            if (Zoom.DistanceTo(zoomLevel) < 0.01f)
+            {
+                //Set the bol that the camera is not being zoomed anymore
+                zoomCamera = false;
+            }
         }
+
+        //If the camera is being moved
+        if (moveCamera)
+        {
+            Position = Position.LinearInterpolate(GetLocalMousePosition(), moveSpeed);
+        }
+
     }
 
     public override void _EnterTree()
