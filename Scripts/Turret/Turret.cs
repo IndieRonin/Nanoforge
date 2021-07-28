@@ -6,7 +6,6 @@ using EventCallback;
 public enum TurretStates
 {
     NONE,
-    TRACK,
     ATTACK
 };
 
@@ -28,25 +27,16 @@ public class Turret : Node2D
         //If the states are not hte same we set the current state to the new state
         currentState = ctse.newState;
         //The bools used to set the states class to active 
-        bool trackState = false, attackState = false;
+        bool attackState = false;
         //Get the state that should be set to active depending on the new state in the ChangeAIStateEvent
         switch (ctse.newState)
         {
             case TurretStates.NONE:
                 break;
-            case TurretStates.TRACK:
-                trackState = true;
-                break;
             case TurretStates.ATTACK:
                 attackState = true;
                 break;
         }
-        //Send the messages to the state classes for active settings =========================
-        SetTurretTrackEvent stte = new SetTurretTrackEvent();
-        stte.callerClass = "AIStateManager - OnChangeAIStateEvent()";
-        stte.turretID = ctse.turretID;
-        stte.active = trackState;
-        stte.FireEvent();
         SetTurretAttackEvent stae = new SetTurretAttackEvent();
         stae.callerClass = "AIStateManager - OnChangeAIStateEvent()";
         stae.turretID = ctse.turretID;

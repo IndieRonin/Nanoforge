@@ -36,20 +36,20 @@ public class TurretAttack : Node
     // Called every physics frame. 'delta' is the elapsed time since the previous frame.
     public override void _PhysicsProcess(float delta)
     {
-        // //If we don;t have a target we return out of the function without doing enything
-        // if (target == null) return;
-        // //If hte distance to the target is greater than the weapons range
-        // if (((Node2D)GetParent()).GlobalPosition.DistanceTo(target.GlobalPosition) > 512.0f)
-        // {
-        //     //SSend the message tothe AI state manager to switch states
-        //     ChangeAIStateEvent caise = new ChangeAIStateEvent();
-        //     caise.callerClass = "AIAttack - _PhysicsProcess()";
-        //     caise.aiID = GetParent().GetInstanceId();
-        //     caise.newState = AIState.MOVE;
-        //     caise.FireEvent();
-        //     //Stop the physics process of the AIAttack before switching to the movement state
-        //     SetPhysicsProcess(false);
-        // }
+        //If we don;t have a target we return out of the function without doing enything
+        if (targets[0] == null) return;
+        //If hte distance to the target is greater than the weapons range
+        if (((Node2D)GetParent()).GlobalPosition.DistanceTo(targets[0].GlobalPosition) > 512.0f)
+        {
+            //SSend the message tothe AI state manager to switch states
+            ChangeAIStateEvent caise = new ChangeAIStateEvent();
+            caise.callerClass = "AIAttack - _PhysicsProcess()";
+            caise.aiID = GetParent().GetInstanceId();
+            caise.newState = AIState.MOVE;
+            caise.FireEvent();
+            //Stop the physics process of the AIAttack before switching to the movement state
+            SetPhysicsProcess(false);
+        }
 
         //The tracking event for the turret =====================================================================================
         //Get the vector direction to the target
