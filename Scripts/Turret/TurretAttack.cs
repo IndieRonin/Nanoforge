@@ -16,8 +16,6 @@ public class TurretAttack : Node
     //Function called at the creation of the object
     public override void _Ready()
     {
-        //Register the attack from the SetAIAttackEvent
-        SetTurretAttackEvent.RegisterListener(OnSetTurretAttackEvent);
         //Stop the physics process when the AIAttack class is created
         SetPhysicsProcess(false);
 
@@ -61,6 +59,11 @@ public class TurretAttack : Node
         //Set the rotation of hte parent object to the lerped angle of the new angle
         ((Node2D)GetParent()).Rotation = Mathf.LerpAngle(((Node2D)GetParent()).Rotation, newAngle, turnSpeed);
         // ======================================================================================================================
+        float angleToTarget = Mathf.Rad2Deg(((Node2D)GetParent()).GetAngleTo(targets[0].GlobalPosition));
+        if (angleToTarget < 5)
+        {
+            Attack();
+        }
     }
     //When any area2d enters the line of sight of the turret it is registered and handled
     public void OnLineOfSightAreaEntered(Area2D area)
@@ -102,38 +105,17 @@ public class TurretAttack : Node
         }
     }
     //Called when the SetAIAttackEvent message is recieved
-    private void OnSetTurretAttackEvent(SetTurretAttackEvent stae)
+    private void Attack()
     {
-        //GD.Print("AIAttack - OnSetAIAttackEvent: Called by" + "Ship(" + saiae.aiID + ")");
-        //Check if the target id is 0
-        if (stae.targetID == 0)
+        //Interate through the weapons and send the fire message to them
+        foreach (Node2D weapon in weapons)
         {
-            //If the targets ID is 0 we print the error and return out of the function
-            GD.Print("AIAttack - OnSetAIAttackEvent: targetID is null");
-            return;
-        }
-        //Check if the ai id is the same as the parents id
-        if (stae.turretID == GetParent().GetInstanceId())
-        {
-            //Start the Physics process to keep track of the distance between the target and the ai ship
-            SetPhysicsProcess(true);
-            //Interate through the weapons and send the fire message to them
-            foreach (Node2D weapon in weapons)
-            {
-                //We send a message to fire the weapon with the weapons corresponding instance id to identify the message
-                FireWeaponEvent fwe = new FireWeaponEvent();
-                fwe.callerClass = "AIAttack - OnSetAIAttackEvent()";
-                fwe.weaponID = weapon.GetInstanceId();
-                fwe.target = GD.InstanceFromId(stae.targetID) as Node2D;
-                fwe.FireEvent();
-            }
+            //We send a message to fire the weapon with the weapons corresponding instance id to identify the message
+            FireWeaponEvent fwe = new FireWeaponEvent();
+            fwe.callerClass = "AIAttack - OnSetAIAttackEvent()";
+            fwe.weaponID = weapon.GetInstanceId();
+            fwe.target = targets[0];
+            fwe.FireEvent();
         }
     }
-
-    public override void _ExitTree()
-    {
-        //Unregister the attack from the SetAIAttackEvent when the ship is detroyed
-        SetTurretAttackEvent.UnregisterListener(OnSetTurretAttackEvent);
-    }
-
 }

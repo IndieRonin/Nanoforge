@@ -1,13 +1,17 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://Textures/Background.png" type="Texture" id=1]
+[ext_resource path="res://Textures/Backgrounds/Nebula Blue.png" type="Texture" id=1]
 
 [node name="ParallaxBackground" type="ParallaxBackground"]
 follow_viewport_enable = true
+follow_viewport_scale = 1.5
 scroll_ignore_camera_zoom = true
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="."]
 motion_scale = Vector2( 0.1, 0.1 )
+motion_offset = Vector2( -4096, -4096 )
+motion_mirroring = Vector2( 4096, 4096 )
 
 [node name="Sprite" type="Sprite" parent="ParallaxLayer"]
 texture = ExtResource( 1 )
+centered = false
