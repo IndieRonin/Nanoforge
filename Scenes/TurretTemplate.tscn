@@ -22,6 +22,7 @@ texture = ExtResource( 3 )
 [node name="Attack" type="Node" parent="."]
 script = ExtResource( 4 )
 weaponsScenes = [ ExtResource( 1 ) ]
+weaponPoints = [ null, null ]
 
 [node name="HitBox" type="Area2D" parent="." groups=[
 "Turret",
@@ -34,6 +35,14 @@ shape = SubResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LineOfSight"]
 shape = SubResource( 2 )
+
+[node name="WeaponPointsHolder" type="Node" parent="."]
+
+[node name="WeaponPoint1" type="Node2D" parent="WeaponPointsHolder"]
+position = Vector2( 27.5, -5 )
+
+[node name="WeaponPoint2" type="Node2D" parent="WeaponPointsHolder"]
+position = Vector2( 27.5, 5 )
 
 [connection signal="area_entered" from="LineOfSight" to="Attack" method="OnLineOfSightAreaEntered"]
 [connection signal="area_exited" from="LineOfSight" to="Attack" method="OnLineOfSightAreaExited"]

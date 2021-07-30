@@ -7,29 +7,29 @@ public class TurretAttack : Node
 {
     //List of weapons
     [Export] List<PackedScene> weaponsScenes = new List<PackedScene>();
+    //The weapons points on the weapon
+    //List of weapons
+    [Export] List<Node2D> weaponPoints = new List<Node2D>();
     //The nodes for the initialized weapons
     List<Node2D> weapons = new List<Node2D>();
     //The list of targets node to track
     List<Node2D> targets = new List<Node2D>();
     //The speed the turret can turn at
     [Export] float turnSpeed = 0.1f;
+    //The weapon points holder
+    Node weaponPointsHolder;
+
     //Function called at the creation of the object
     public override void _Ready()
     {
         //Stop the physics process when the AIAttack class is created
         SetPhysicsProcess(false);
+        //Set the weapon points holder
+        weaponPointsHolder = GetNode<Node>("../WeaponPointsHolder");
 
-        //Loop through the list of weapon scenes and create them
-        foreach (PackedScene weaponScene in weaponsScenes)
-        {
-            //Create the new weapon node in game
-            Node2D newWeapon = weaponScene.Instance() as Node2D;
-            //Add the new weapon node as a child of hte scene
-            AddChild(newWeapon);
-            //Create the weapons
-            weapons.Add(newWeapon);
+        //Get the weapon ponts to fill
+        GetWeaponPoints();
 
-        }
     }
     // Called every physics frame. 'delta' is the elapsed time since the previous frame.
     public override void _PhysicsProcess(float delta)
@@ -63,6 +63,29 @@ public class TurretAttack : Node
         if (angleToTarget < 5)
         {
             Attack();
+        }
+    }
+
+    //Get the weapon points on the weapon
+    private void GetWeaponPoints()
+    {
+        //Loop through all the childer in the weaponPointsHolder
+        foreach (Node2D point in weaponPointsHolder.GetChildren())
+        {
+            //Add the children of the weapon points holder to the list
+            weaponPoints.Add(point);
+        }
+    }
+    private void AddWeapons()
+    {
+        for (int i = 0; i < weaponsScenes.Count; i++)
+        {
+            //Create the new weapon node in game
+            Node2D newWeapon = weaponsScenes[i].Instance() as Node2D;
+            //Add the new weapon node as a child of hte scene
+            AddChild(newWeapon);
+            //Create the weapons
+            weapons.Add(newWeapon);
         }
     }
     //When any area2d enters the line of sight of the turret it is registered and handled
@@ -100,7 +123,6 @@ public class TurretAttack : Node
                 targets.Remove(area.GetParent() as Node2D);
                 //Stop the physics process of the turret AI if the targets list is empty
                 if (targets.Count == 0) SetPhysicsProcess(false);
-
             }
         }
     }
