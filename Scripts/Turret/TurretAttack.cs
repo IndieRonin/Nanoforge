@@ -22,10 +22,10 @@ public class TurretAttack : Node
     //Function called at the creation of the object
     public override void _Ready()
     {
-        //Stop the physics process when the AIAttack class is created
+        //Stop the physics process when the turret class is created
         SetPhysicsProcess(false);
         //Set the weapon points holder
-        weaponPointsHolder = GetNode<Node>("../WeaponPointsHolder");
+        weaponPointsHolder = GetNode<Node>("../WeaponHolder");
 
         //Get the weapon ponts to fill
         GetWeaponPoints();

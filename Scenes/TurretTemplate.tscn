@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scenes/Weapons/Beam.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/Turret/Turret.cs" type="Script" id=2]
 [ext_resource path="res://Textures/Turrets/Turret1.png" type="Texture" id=3]
 [ext_resource path="res://Scripts/Turret/TurretAttack.cs" type="Script" id=4]
+[ext_resource path="res://Scripts/Weapons/Weapon.cs" type="Script" id=5]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 32.0
@@ -36,13 +37,15 @@ shape = SubResource( 1 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LineOfSight"]
 shape = SubResource( 2 )
 
-[node name="WeaponPointsHolder" type="Node" parent="."]
+[node name="WeaponHolder" type="Node" parent="."]
 
-[node name="WeaponPoint1" type="Node2D" parent="WeaponPointsHolder"]
+[node name="Weapon1" type="Node2D" parent="WeaponHolder"]
 position = Vector2( 27.5, -5 )
+script = ExtResource( 5 )
 
-[node name="WeaponPoint2" type="Node2D" parent="WeaponPointsHolder"]
+[node name="Weapon2" type="Node2D" parent="WeaponHolder"]
 position = Vector2( 27.5, 5 )
+script = ExtResource( 5 )
 
 [connection signal="area_entered" from="LineOfSight" to="Attack" method="OnLineOfSightAreaEntered"]
 [connection signal="area_exited" from="LineOfSight" to="Attack" method="OnLineOfSightAreaExited"]
