@@ -29,13 +29,13 @@ public class Projectile : Node2D
     {
 
         //Check if the fire wepon ID was meant for this weapon
-        if (fwe.weaponID == GetInstanceId())
-        {
-            //Set the target for the wapon to aim at
-            target = fwe.target;
-            //Call the fire weapon function
-            FireWeapon();
-        }
+        // if (fwe.weaponID == GetInstanceId())
+        // {
+        //     Set the target for the wapon to aim at
+        //     target = fwe.target;
+        //     Call the fire weapon function
+        //     FireWeapon();
+        // }
 
     }
     private void FireWeapon()

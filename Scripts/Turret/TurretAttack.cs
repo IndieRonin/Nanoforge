@@ -135,7 +135,7 @@ public class TurretAttack : Node
             //We send a message to fire the weapon with the weapons corresponding instance id to identify the message
             FireWeaponEvent fwe = new FireWeaponEvent();
             fwe.callerClass = "AIAttack - OnSetAIAttackEvent()";
-            fwe.weaponID = weapon.GetInstanceId();
+            //fwe.weaponID = weapon.GetInstanceId();
             fwe.target = targets[0];
             fwe.FireEvent();
         }

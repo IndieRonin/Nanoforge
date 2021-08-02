@@ -69,11 +69,11 @@ public class AIAttack : Node
             foreach (Node2D weapon in weapons)
             {
                 //We send a message to fire the weapon with the weapons corresponding instance id to identify the message
-                FireWeaponEvent fwe = new FireWeaponEvent();
-                fwe.callerClass = "AIAttack - OnSetAIAttackEvent()";
-                fwe.weaponID = weapon.GetInstanceId();
-                fwe.target = GD.InstanceFromId(saiae.targetID) as Node2D;
-                fwe.FireEvent();
+                //FireWeaponEvent fwe = new FireWeaponEvent();
+                //fwe.callerClass = "AIAttack - OnSetAIAttackEvent()";
+                //fwe.weaponID = weapon.GetInstanceId();
+                //fwe.target = GD.InstanceFromId(saiae.targetID) as Node2D;
+                //fwe.FireEvent();
             }
         }
     }
