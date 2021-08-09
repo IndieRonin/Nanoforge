@@ -7,8 +7,8 @@ public class AIAttack : Node
 {
     //List of weapons
     [Export] List<PackedScene> weaponsScenes = new List<PackedScene>();
-    //The nodes for the initialized weapons
-    List<Node2D> weapons = new List<Node2D>();
+    //The nodes that hold the weapons
+    Node weaponHolder;
     //The target the beam needs to be drawn toward
     Node2D target;
     //Function called at the creation of the object
@@ -19,17 +19,8 @@ public class AIAttack : Node
         //Stop the physics process when the AIAttack class is created
         SetPhysicsProcess(false);
 
-        //Loop through the list of weapon scenes and create them
-        foreach (PackedScene weaponScene in weaponsScenes)
-        {
-            //Create the new weapon node in game
-            Node2D newWeapon = weaponScene.Instance() as Node2D;
-            //Add the new weapon node as a child of hte scene
-            AddChild(newWeapon);
-            //Create the weapons
-            weapons.Add(newWeapon);
-
-        }
+        //Get the refference to the weapon holder node
+        weaponHolder = GetNode<Node>("../WeaponHolder");
     }
     // Called every physics frame. 'delta' is the elapsed time since the previous frame.
     public override void _PhysicsProcess(float delta)
@@ -65,16 +56,13 @@ public class AIAttack : Node
         {
             //Start the Physics process to keep track of the distance between the target and the ai ship
             SetPhysicsProcess(true);
-            //Interate through the weapons and send the fire message to them
-            foreach (Node2D weapon in weapons)
-            {
-                //We send a message to fire the weapon with the weapons corresponding instance id to identify the message
-                //FireWeaponEvent fwe = new FireWeaponEvent();
-                //fwe.callerClass = "AIAttack - OnSetAIAttackEvent()";
-                //fwe.weaponID = weapon.GetInstanceId();
-                //fwe.target = GD.InstanceFromId(saiae.targetID) as Node2D;
-                //fwe.FireEvent();
-            }
+
+            //We send a message to fire the weapon with the weapons corresponding instance id to identify the message
+            FireWeaponEvent fwe = new FireWeaponEvent();
+            fwe.callerClass = "AIAttack - OnSetAIAttackEvent()";
+            fwe.weaponHolderID = weaponHolder.GetInstanceId();
+            fwe.target = GD.InstanceFromId(saiae.targetID) as Node2D;
+            fwe.FireEvent();
         }
     }
 

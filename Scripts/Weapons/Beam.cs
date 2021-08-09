@@ -52,19 +52,21 @@ public class Beam : Node2D
     }
     private void FireWeapon()
     {
-        //Get the parent ships position
-        Vector2 shipPos = ((Node2D)GetParent().GetParent()).GlobalPosition;
-
-        GD.Print("Beam - OnFireWeaponEvent(): target = " + target.Name);
         //Start the fire duration timer for the weapon
         fireDurationTimer.Start();
 
         //Grab a snapshot of the physics side of currents world 
         Physics2DDirectSpaceState worldState = GetWorld2d().DirectSpaceState;
         //Shoot the ray in the captured world instance
-        Godot.Collections.Dictionary hits = worldState.IntersectRay(shipPos, target.GlobalPosition, new Godot.Collections.Array { GetParent().GetParent() });
+        Godot.Collections.Dictionary hits = worldState.IntersectRay(GlobalPosition, target.GlobalPosition, new Godot.Collections.Array { GetParent().GetParent() });
 
-        DrawBeamTo(shipPos, target.GlobalPosition);
+        // DrawBeamTo(Vector2.Zero, (((Node2D)GetParent()).GlobalPosition - target.GlobalPosition));
+        // DrawBeamTo(Vector2.Zero, (((Node2D)GetParent()).GlobalPosition - target.GlobalPosition));
+        DrawBeamTo(Vector2.Zero, Transform.XformInv(GlobalPosition - Position));
+        //GD.Print("Beam - FireWeapon: self global position = " + GlobalPosition);
+        // GD.Print("Beam - FireWeapon: self position = " + Position);
+        //GD.Print("Beam - FireWeapon: parents position position = " + ((Node2D)GetParent()).GlobalPosition);
+        //GD.Print("Beam - FireWeapon: difference in positions = " + (((Node2D)GetParent()).GlobalPosition - GlobalPosition));
 
         DrawParticleAtHit(target.GlobalPosition);
 

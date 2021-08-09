@@ -26,10 +26,6 @@ public class TurretAttack : Node
         SetPhysicsProcess(false);
         //Set the weapon points holder
         weaponPointsHolder = GetNode<Node>("../WeaponHolder");
-
-        //Get the weapon ponts to fill
-        GetWeaponPoints();
-
     }
     // Called every physics frame. 'delta' is the elapsed time since the previous frame.
     public override void _PhysicsProcess(float delta)
@@ -39,16 +35,9 @@ public class TurretAttack : Node
         //If hte distance to the target is greater than the weapons range
         if (((Node2D)GetParent()).GlobalPosition.DistanceTo(targets[0].GlobalPosition) > 512.0f)
         {
-            //SSend the message tothe AI state manager to switch states
-            ChangeAIStateEvent caise = new ChangeAIStateEvent();
-            caise.callerClass = "AIAttack - _PhysicsProcess()";
-            caise.aiID = GetParent().GetInstanceId();
-            caise.newState = AIState.MOVE;
-            caise.FireEvent();
             //Stop the physics process of the AIAttack before switching to the movement state
             SetPhysicsProcess(false);
         }
-
         //The tracking event for the turret =====================================================================================
         //Get the vector direction to the target
         Vector2 dir = targets[0].GlobalPosition - ((Node2D)GetParent()).GlobalPosition;
@@ -66,28 +55,6 @@ public class TurretAttack : Node
         }
     }
 
-    //Get the weapon points on the weapon
-    private void GetWeaponPoints()
-    {
-        //Loop through all the childer in the weaponPointsHolder
-        foreach (Node2D point in weaponPointsHolder.GetChildren())
-        {
-            //Add the children of the weapon points holder to the list
-            weaponPoints.Add(point);
-        }
-    }
-    private void AddWeapons()
-    {
-        for (int i = 0; i < weaponsScenes.Count; i++)
-        {
-            //Create the new weapon node in game
-            Node2D newWeapon = weaponsScenes[i].Instance() as Node2D;
-            //Add the new weapon node as a child of hte scene
-            AddChild(newWeapon);
-            //Create the weapons
-            weapons.Add(newWeapon);
-        }
-    }
     //When any area2d enters the line of sight of the turret it is registered and handled
     public void OnLineOfSightAreaEntered(Area2D area)
     {
@@ -135,7 +102,7 @@ public class TurretAttack : Node
             //We send a message to fire the weapon with the weapons corresponding instance id to identify the message
             FireWeaponEvent fwe = new FireWeaponEvent();
             fwe.callerClass = "AIAttack - OnSetAIAttackEvent()";
-            //fwe.weaponID = weapon.GetInstanceId();
+            fwe.weaponHolderID = weapon.GetInstanceId();
             fwe.target = targets[0];
             fwe.FireEvent();
         }

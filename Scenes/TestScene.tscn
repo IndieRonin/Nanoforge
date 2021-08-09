@@ -9,16 +9,7 @@
 [node name="TurretTemplate" parent="." instance=ExtResource( 3 )]
 
 [node name="EnemyTemplate" parent="." instance=ExtResource( 1 )]
-position = Vector2( 1091.09, -191.508 )
-
-[node name="EnemyTemplate2" parent="." instance=ExtResource( 1 )]
-position = Vector2( 1250.14, 304.686 )
-
-[node name="EnemyTemplate3" parent="." instance=ExtResource( 1 )]
-position = Vector2( 928.93, 551.667 )
-
-[node name="EnemyTemplate4" parent="." instance=ExtResource( 1 )]
-position = Vector2( 1063.37, -589.643 )
+position = Vector2( 1000, -190 )
 
 [node name="Camera2D" parent="." instance=ExtResource( 2 )]
 zoom = Vector2( 1, 1 )

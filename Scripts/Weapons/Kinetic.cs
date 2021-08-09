@@ -1,7 +1,7 @@
 using Godot;
 using System;
 using EventCallback;
-public class Projectile : Node2D
+public class Kinetic : Node2D
 {
 
     //The timer for the relod time for the weapon
