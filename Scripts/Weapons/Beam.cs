@@ -44,10 +44,14 @@ public class Beam : Node2D
         //Check if the weapon holder is the same for this weapon
         if (fwe.weaponHolderID == GetParent().GetInstanceId())
         {
-            //Set the target for the wapon to aim at
-            target = fwe.target;
-            //Call the fire weapon function
-            FireWeapon();
+            //If the weapon is to be fired
+            if (fwe.fire)
+            {
+                //Set the target for the wapon to aim at
+                target = fwe.target;
+                //Call the fire weapon function
+                FireWeapon();
+            }
         }
     }
     private void FireWeapon()

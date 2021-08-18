@@ -18,6 +18,8 @@ public class TurretAttack : Node
     [Export] float turnSpeed = 0.1f;
     //The weapon points holder
     Node weaponPointsHolder;
+    //Check is the ship already attacking
+    bool isAttacking = false;
 
     //Function called at the creation of the object
     public override void _Ready()
@@ -32,7 +34,7 @@ public class TurretAttack : Node
     {
         //If we don;t have a target we return out of the function without doing enything
         if (targets[0] == null) return;
-        //If hte distance to the target is greater than the weapons range
+        //If the distance to the target is greater than the weapons range
         if (((Node2D)GetParent()).GlobalPosition.DistanceTo(targets[0].GlobalPosition) > 512.0f)
         {
             //Stop the physics process of the AIAttack before switching to the movement state
@@ -49,7 +51,8 @@ public class TurretAttack : Node
         ((Node2D)GetParent()).Rotation = Mathf.LerpAngle(((Node2D)GetParent()).Rotation, newAngle, turnSpeed);
         // ======================================================================================================================
         float angleToTarget = Mathf.Rad2Deg(((Node2D)GetParent()).GetAngleTo(targets[0].GlobalPosition));
-        if (angleToTarget < 5)
+        //If the ship has rotated towards the target and is not attacking yet we call Attack() 
+        if (angleToTarget < 5 & !isAttacking)
         {
             Attack();
         }
@@ -88,6 +91,8 @@ public class TurretAttack : Node
             {
                 //Remove the target from the list of targets
                 targets.Remove(area.GetParent() as Node2D);
+                //Call the attack funtion to inject the new target for the turret
+                Attack();
                 //Stop the physics process of the turret AI if the targets list is empty
                 if (targets.Count == 0) SetPhysicsProcess(false);
             }

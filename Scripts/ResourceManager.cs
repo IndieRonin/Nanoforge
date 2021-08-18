@@ -15,6 +15,15 @@ public class ResourceManager : Node
     float nanitesBanked;
     //Amount of nanites to be added every tick
     float naniteIncome;
+    //The max amount of nanites allowed
+    //The maxumim nanites is the max power allowed times any modifier to the max amount of nanites  maxNanites *= naniteBoost
+    float maxNanites;
+
+    //An efficiency boost for the nanietes
+    float naniteBoost;
+        //An efficiency boost for the power
+    float powerBoost;
+
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
